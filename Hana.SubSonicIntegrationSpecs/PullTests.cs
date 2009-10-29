@@ -15,8 +15,8 @@ namespace Hana.SubSonicIntegrationSpecs {
         Hana.Model.IBlogRepository repo;
         IDataProvider provider;
         public PullTests() {
-            repo = new SubSonicRepo();
-            provider=ProviderFactory.GetProvider("wekeroad");
+            repo = new WPRepository();
+            provider=ProviderFactory.GetProvider("wp");
         }
 
         [Fact]
@@ -37,13 +37,32 @@ namespace Hana.SubSonicIntegrationSpecs {
             var sql = "SELECT COUNT(ID) From wp_posts";
             var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
 
-            var allCount = repo.All<Post>().Count();
+            var allCount = repo.GetPosts().Count();
 
             Assert.Equal(baseCount, allCount);
         }
         [Fact]
+        public void All_Should_Return_list_of_Posts() {
+
+            var sql = "SELECT COUNT(ID) From wp_posts";
+            var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
+            var posts = repo.GetPosts();
+
+            Assert.Equal(baseCount, posts.Count());
+        }
+        [Fact]
+        public void All_Should_Return_list_of_Posts_by_status() {
+
+            var sql = "SELECT COUNT(ID) From wp_posts where post_status='published'";
+            var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
+            var posts = repo.GetPosts().Where(x=>x.Status==Post.Status_Published);
+
+            Assert.Equal(baseCount, posts.Count());
+        }
+
+        [Fact]
         public void All_Should_Return_Single_Post() {
-            var post = repo.All<Post>().Where(x => x.ID == 1430).SingleOrDefault();
+            var post = repo.GetPost("temet-nosce", 0, 0, 0);
             Assert.NotNull(post);
         }
     }

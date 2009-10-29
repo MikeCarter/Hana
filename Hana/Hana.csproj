@@ -89,12 +89,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Structs.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Repo\IRepository.cs" />
+    <Compile Include="Model\Repo\IBlogRepository.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\PostService.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\PostViewModel.cs" />
+    <Compile Include="Model\Repo\WPRepository.cs" />
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

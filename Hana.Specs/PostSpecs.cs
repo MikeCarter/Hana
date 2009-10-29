@@ -58,7 +58,7 @@ namespace Hana.Specs {
 
         };
         It should_default_status_to_draft = () => {
-            post.Status.ShouldEqual(PostStatus.Draft);
+            post.Status.ShouldEqual(Post.Status_Offline);
         };
 
         It should_be_instantiated = () => {

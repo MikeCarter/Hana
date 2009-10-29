@@ -100,7 +100,7 @@ namespace Hana.Specs {
 
         Because of = () => {
             //offset the day because we're pulling the 2nd Post
-            model = svc.GetPostPage("slug1",DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.AddDays(-1).Day);
+            model = svc.GetPostPage("slug1", 0, 0, 0);
         };
 
         It should_have_selected_post = () => {
@@ -120,7 +120,7 @@ namespace Hana.Specs {
 
         Because of = () => {
             //offset the day because we're pulling the 2nd Post
-            model = svc.GetPostPage("slug1", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(-1).Day);
+            model = svc.GetPostPage("slug1", 0,0,0);
         };
 
         It should_have_selected_post = () => {
@@ -150,7 +150,7 @@ namespace Hana.Specs {
                 Post p = new Post("Author", "Title " + i, "Body " + i);
                 p.Slug = "slug" + i;
                 p.PublishedAt = DateTime.Now.AddDays(-i);
-                p.Status = PostStatus.Published;
+                p.Status = Post.Status_Published;
 
                 if (i < 5) {
                     p.Categories.Add(subCat);
@@ -169,16 +169,16 @@ namespace Hana.Specs {
             }
             var post = posts.SingleOrDefault(x => x.Slug == "slug1");
 
-            mock.Setup(x => x.All<Post>()).Returns(posts.AsQueryable());
-            mock.Setup(x => x.All<Comment>()).Returns(comments.AsQueryable());
-            mock.Setup(x => x.Single<Post>(Moq.It.IsAny<Expression<Func<Post,bool>>>())).Returns(posts[1]);
+            mock.Setup(x => x.GetPosts()).Returns(posts.AsQueryable());
+            mock.Setup(x => x.GetApprovedComments()).Returns(comments.AsQueryable());
+            mock.Setup(x => x.GetPost("slug1", 0, 0, 0)).Returns(post);
+            mock.Setup(x => x.GetRelatedPosts(Moq.It.IsAny<Post>())).Returns(posts.Take(5).ToList());
 
-            mock.Setup(x => x.Find<Comment>(Moq.It.IsAny<Expression<Func<Comment, bool>>>())).Returns(posts[1].Comments);
             
-            mock.Setup(x => x.GetAssociated<Category, Post>(subCat))
-                .Returns(posts.Where(y => y.Categories.Contains(subCat)).ToList());
-            mock.Setup(x => x.GetAssociated<Category, Post>(opCat))
-                .Returns(posts.Where(y => y.Categories.Contains(opCat)).ToList());
+            mock.Setup(x => x.GetPosts(subCat))
+                .Returns(posts.Where(y => y.Categories.Contains(subCat)).AsQueryable());
+            mock.Setup(x => x.GetPosts(opCat))
+                .Returns(posts.Where(y => y.Categories.Contains(opCat)).AsQueryable());
             
             
             svc = new PostService(mock.Object);

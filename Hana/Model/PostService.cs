@@ -19,22 +19,24 @@ namespace Hana.Model {
         /// </summary>
         /// <returns></returns>
         public PostViewModel GetHomePage() {
-            
-            var totalPosts = _repo.All<Post>().Count();
-            var totalComments = _repo.All<Comment>().Count();
 
-            var featured=(from p in _repo.All<Post>()
-                       where p.PublishedAt <= DateTime.Now && p.Status==PostStatus.Published
+            var posts = _repo.GetPosts();
+
+            var totalPosts = posts.Count();
+            var totalComments = _repo.GetApprovedComments().Count();
+
+            var featured = (from p in posts
+                       where p.PublishedAt <= DateTime.Now && p.Status==Post.Status_Published
                        select p);
             
 
             var subsonicCategory=new Category("SubSonic");
-            var subsonic = _repo.GetAssociated<Category, Post>(subsonicCategory);
+            var subsonic = _repo.GetPosts(subsonicCategory);
 
             var opinionCat = new Category("Opinion");
-            var opinion = _repo.GetAssociated<Category, Post>(opinionCat);
+            var opinion = _repo.GetPosts(opinionCat);
 
-            var recentComments = (from c in _repo.All<Comment>()
+            var recentComments = (from c in _repo.GetApprovedComments()
                                   orderby c.CreatedAt descending
                                   where c.Status==CommentStatus.Approved
                                   select c);
@@ -58,25 +60,15 @@ namespace Hana.Model {
         /// </summary>
         /// <returns></returns>
         public PostViewModel GetPostPage(string slug, int year, int month, int day) {
+            var posts = _repo.GetPosts();
 
-            var totalPosts = _repo.All<Post>().Count();
-            var totalComments = _repo.All<Comment>().Count();
+            var totalPosts = posts.Count();
+            var totalComments = _repo.GetApprovedComments().Count();
             Post post = null;
-            if (year > 0 && month > 0 && day > 0) {
-                post = _repo.Single<Post>(x => x.Slug == slug && x.PublishedAt.Year==year
-                    && x.PublishedAt.Month==month
-                    && x.PublishedAt.Day==day);
-            } else {
-                post = _repo.Single<Post>(x => x.Slug == slug);
-            }
 
-            if(post!=null)
-                post.Comments = _repo.Find<Comment>(x => x.PostID == post.ID);
+            post = _repo.GetPost(slug, year, month, day);
 
-            //find related
-            //stubbed 
-            //TODO: Make related posts mean something
-            var related = _repo.All<Post>().Take(5);
+            var related = _repo.GetRelatedPosts(post);
 
             return new PostViewModel(post, related,totalPosts, totalComments);
 

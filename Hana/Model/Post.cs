@@ -7,13 +7,12 @@ using System.Text.RegularExpressions;
 using SubSonic.SqlGeneration.Schema;
 namespace Hana.Model {
 
-    public enum PostStatus {
-        Draft,
-        Published,
-        Offline
-    }
+
     [SubSonicTableNameOverride("wp_posts")]
     public class Post {
+
+        public const string Status_Published = "published";
+        public const string Status_Offline = "pending";
 
         public Post(string author, string title, string body):this() {
             Author = author;
@@ -33,13 +32,13 @@ namespace Hana.Model {
             CreatedAt = DateTime.Now;
             ModifiedAt = DateTime.Now;
             PublishedAt = DateTime.Now;
-            Status = PostStatus.Draft;
+            Status = Status_Offline;
             Comments = new List<Comment>();
             Tags = new List<Tag>();
             Categories = new List<Category>();
         }
 
-        public int ID { get; set; }
+        public long ID { get; set; }
         public string Title { get; set; }
         public string Slug { get; set; }
         public string Body { get; set; }
@@ -47,7 +46,7 @@ namespace Hana.Model {
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
         public DateTime PublishedAt { get; set; }
-        public PostStatus Status { get; set; }
+        public string Status { get; set; }
         public string Excerpt { get; set; }
 
         public IList<Comment> Comments { get; set; }
@@ -57,7 +56,7 @@ namespace Hana.Model {
 
         public bool IsViewable {
             get {
-                return PublishedAt <= DateTime.Now && Status == PostStatus.Published;
+                return PublishedAt <= DateTime.Now && Status == Status_Published;
             }
         }
 

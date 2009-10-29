@@ -22,7 +22,7 @@ namespace Hana.Model {
         }
 
 
-        public Comment(int postID, string author, string email, string url, string body):this() {
+        public Comment(long postID, string author, string email, string url, string body):this() {
             Author = author;
             Email = email;
             this.AuthorUrl = url;
@@ -34,11 +34,9 @@ namespace Hana.Model {
 
         public CommentStatus Status { get; set; }
 
-        public int ReplyTo { get; set; }
-
-        public int ID { get; set; }
-        public int PostID { get; set; }
-        public string Title { get; set; }
+        public long ID { get; set; }
+        public long ReplyToID { get; set; }
+        public long PostID { get; set; }
         public string Author { get; set; }
         public string Email { get; set; }
         public string IP { get; set; }
@@ -47,7 +45,7 @@ namespace Hana.Model {
         public DateTime CreatedAt { get; set; }
         public string Meta { get; set; }
         public string PermaLink { get; set; }
-
+        public bool IsApproved { get; set; }
         public override bool Equals(object obj) {
 
             if (obj.GetType() == typeof(Comment)) {
