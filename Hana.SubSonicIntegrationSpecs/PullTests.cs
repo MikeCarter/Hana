@@ -31,9 +31,8 @@ namespace Hana.SubSonicIntegrationSpecs {
 
             Assert.True(connected, "Can't connect to MySQL DB");
         }
-
         [Fact]
-        public void All_Should_Return_Correct_count_of_Posts() {
+        public void GetPosts_Should_Return_Correct_count_of_Posts() {
             var sql = "SELECT COUNT(ID) From wp_posts";
             var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
 
@@ -42,7 +41,7 @@ namespace Hana.SubSonicIntegrationSpecs {
             Assert.Equal(baseCount, allCount);
         }
         [Fact]
-        public void All_Should_Return_list_of_Posts() {
+        public void GetPosts_Should_Return_list_of_Posts() {
 
             var sql = "SELECT COUNT(ID) From wp_posts";
             var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
@@ -51,7 +50,7 @@ namespace Hana.SubSonicIntegrationSpecs {
             Assert.Equal(baseCount, posts.Count());
         }
         [Fact]
-        public void All_Should_Return_list_of_Posts_by_status() {
+        public void GetPosts_Should_Return_list_of_Posts_by_status() {
 
             var sql = "SELECT COUNT(ID) From wp_posts where post_status='published'";
             var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
@@ -61,7 +60,7 @@ namespace Hana.SubSonicIntegrationSpecs {
         }
 
         [Fact]
-        public void All_Should_Return_Single_Post() {
+        public void GetPosts_Should_Return_Single_Post() {
             var post = repo.GetPost("temet-nosce", 0, 0, 0);
             Assert.NotNull(post);
         }
