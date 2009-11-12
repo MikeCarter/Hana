@@ -66,7 +66,7 @@ namespace Hana.Specs {
     public class base_properties : with_null_comment {
         static Comment comment2;
         Because of = () => {
-            var postID = 1;
+            ulong postID = 1;
             comment = new Comment(postID,"Author", "Email", "URL", "Body");
             comment2 = new Comment(postID,"Author", "Email", "URL", "Body");
         };

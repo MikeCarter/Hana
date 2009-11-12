@@ -342,6 +342,7 @@ namespace <#=Namespace #>
 				col.CleanName += "X";
 			}
 #>
+        //Unsigned: <#=col.IsUnsigned#>
         <#=col.SysType #><#=CheckNullable(col)#> _<#=col.CleanName #>;
         public <#=col.SysType #><#=CheckNullable(col)#> <#=col.CleanName #>
         {

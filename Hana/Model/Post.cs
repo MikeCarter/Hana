@@ -38,7 +38,7 @@ namespace Hana.Model {
             Categories = new List<Category>();
         }
 
-        public long ID { get; set; }
+        public ulong ID { get; set; }
         public string Title { get; set; }
         public string Slug { get; set; }
         public string Body { get; set; }

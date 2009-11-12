@@ -10,9 +10,9 @@ using SubSonic.Repository;
 using Hana.Model.Repo;
 using Hana.Model;
 
-namespace Hana.SubSonicIntegrationSpecs {
+namespace Hana.SubSonicIntegration {
     public class PullTests {
-        Hana.Model.IBlogRepository repo;
+        IBlogRepository repo;
         IDataProvider provider;
         public PullTests() {
             repo = new WPRepository();
@@ -24,7 +24,8 @@ namespace Hana.SubSonicIntegrationSpecs {
             
             var sql = "SELECT ID From wp_posts LIMIT 1";
             bool connected = false;
-            using (IDataReader query = new CodingHorror(provider, sql).ExecuteReader()) {
+            using (IDataReader query = new CodingHorror(provider, sql)
+                .ExecuteReader()) {
                 connected = query.Read();
 
             }
@@ -34,7 +35,8 @@ namespace Hana.SubSonicIntegrationSpecs {
         [Fact]
         public void GetPosts_Should_Return_Correct_count_of_Posts() {
             var sql = "SELECT COUNT(ID) From wp_posts";
-            var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
+            var baseCount = new CodingHorror(provider, sql)
+                .ExecuteScalar<int>();
 
             var allCount = repo.GetPosts().Count();
 
@@ -44,25 +46,40 @@ namespace Hana.SubSonicIntegrationSpecs {
         public void GetPosts_Should_Return_list_of_Posts() {
 
             var sql = "SELECT COUNT(ID) From wp_posts";
-            var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
+            var baseCount = new CodingHorror(provider, sql)
+                .ExecuteScalar<int>();
             var posts = repo.GetPosts();
-
+            
             Assert.Equal(baseCount, posts.Count());
         }
         [Fact]
         public void GetPosts_Should_Return_list_of_Posts_by_status() {
 
             var sql = "SELECT COUNT(ID) From wp_posts where post_status='published'";
-            var baseCount = new CodingHorror(provider, sql).ExecuteScalar<int>();
-            var posts = repo.GetPosts().Where(x=>x.Status==Post.Status_Published);
+            var baseCount = new CodingHorror(provider, sql)
+                .ExecuteScalar<int>();
+            var posts = repo.GetPosts()
+                .Where(x=>x.Status==Post.Status_Published);
 
             Assert.Equal(baseCount, posts.Count());
         }
+        [Fact]
+        public void GetPosts_Should_Be_Able_To_Return_Single() {
 
+            var post = repo.GetPosts().Where(x => x.Slug == "temet-nosce")
+                .SingleOrDefault();
+
+            Assert.NotNull(post);
+        }
         [Fact]
         public void GetPosts_Should_Return_Single_Post() {
             var post = repo.GetPost("temet-nosce", 0, 0, 0);
             Assert.NotNull(post);
+        }
+
+        class bip{
+
+            public ulong ID { get; set; }
         }
     }
 }

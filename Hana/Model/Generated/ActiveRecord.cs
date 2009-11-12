@@ -286,6 +286,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _comment_ID;
         public ulong comment_ID
         {
@@ -305,6 +306,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _comment_post_ID;
         public ulong comment_post_ID
         {
@@ -324,6 +326,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_author;
         public string comment_author
         {
@@ -343,6 +346,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_author_email;
         public string comment_author_email
         {
@@ -362,6 +366,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_author_url;
         public string comment_author_url
         {
@@ -381,6 +386,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_author_IP;
         public string comment_author_IP
         {
@@ -400,6 +406,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _comment_date;
         public DateTime comment_date
         {
@@ -419,6 +426,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _comment_date_gmt;
         public DateTime comment_date_gmt
         {
@@ -438,6 +446,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_content;
         public string comment_content
         {
@@ -457,6 +466,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _comment_karma;
         public int comment_karma
         {
@@ -476,6 +486,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_approved;
         public string comment_approved
         {
@@ -495,6 +506,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_agent;
         public string comment_agent
         {
@@ -514,6 +526,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_type;
         public string comment_type
         {
@@ -533,6 +546,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _comment_parent;
         public ulong comment_parent
         {
@@ -552,6 +566,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _user_id;
         public ulong user_id
         {
@@ -571,6 +586,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _comment_reply_ID;
         public int comment_reply_ID
         {
@@ -982,6 +998,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _link_id;
         public ulong link_id
         {
@@ -1001,6 +1018,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_url;
         public string link_url
         {
@@ -1020,6 +1038,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_name;
         public string link_name
         {
@@ -1039,6 +1058,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_image;
         public string link_image
         {
@@ -1058,6 +1078,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_target;
         public string link_target
         {
@@ -1077,6 +1098,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         long _link_category;
         public long link_category
         {
@@ -1096,6 +1118,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_description;
         public string link_description
         {
@@ -1115,6 +1138,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_visible;
         public string link_visible
         {
@@ -1134,6 +1158,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _link_owner;
         public ulong link_owner
         {
@@ -1153,6 +1178,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _link_rating;
         public int link_rating
         {
@@ -1172,6 +1198,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _link_updated;
         public DateTime link_updated
         {
@@ -1191,6 +1218,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_rel;
         public string link_rel
         {
@@ -1210,6 +1238,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_notes;
         public string link_notes
         {
@@ -1229,6 +1258,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _link_rss;
         public string link_rss
         {
@@ -1640,6 +1670,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _option_id;
         public ulong option_id
         {
@@ -1659,6 +1690,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _blog_id;
         public int blog_id
         {
@@ -1678,6 +1710,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _option_name;
         public string option_name
         {
@@ -1697,6 +1730,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _option_value;
         public string option_value
         {
@@ -1716,6 +1750,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _autoload;
         public string autoload
         {
@@ -2127,6 +2162,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _meta_id;
         public ulong meta_id
         {
@@ -2146,6 +2182,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _post_id;
         public ulong post_id
         {
@@ -2165,6 +2202,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _meta_key;
         public string meta_key
         {
@@ -2184,6 +2222,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _meta_value;
         public string meta_value
         {
@@ -2595,6 +2634,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _ID;
         public ulong ID
         {
@@ -2614,6 +2654,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _post_author;
         public ulong post_author
         {
@@ -2633,6 +2674,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _post_date;
         public DateTime post_date
         {
@@ -2652,6 +2694,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _post_date_gmt;
         public DateTime post_date_gmt
         {
@@ -2671,6 +2714,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_content;
         public string post_content
         {
@@ -2690,6 +2734,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_title;
         public string post_title
         {
@@ -2709,6 +2754,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _post_category;
         public int post_category
         {
@@ -2728,6 +2774,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_excerpt;
         public string post_excerpt
         {
@@ -2747,6 +2794,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_status;
         public string post_status
         {
@@ -2766,6 +2814,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _comment_status;
         public string comment_status
         {
@@ -2785,6 +2834,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _ping_status;
         public string ping_status
         {
@@ -2804,6 +2854,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_password;
         public string post_password
         {
@@ -2823,6 +2874,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_name;
         public string post_name
         {
@@ -2842,6 +2894,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _to_ping;
         public string to_ping
         {
@@ -2861,6 +2914,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _pinged;
         public string pinged
         {
@@ -2880,6 +2934,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _post_modified;
         public DateTime post_modified
         {
@@ -2899,6 +2954,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _post_modified_gmt;
         public DateTime post_modified_gmt
         {
@@ -2918,6 +2974,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_content_filtered;
         public string post_content_filtered
         {
@@ -2937,6 +2994,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _post_parent;
         public ulong post_parent
         {
@@ -2956,6 +3014,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _guid;
         public string guid
         {
@@ -2975,6 +3034,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _menu_order;
         public int menu_order
         {
@@ -2994,6 +3054,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_type;
         public string post_type
         {
@@ -3013,6 +3074,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _post_mime_type;
         public string post_mime_type
         {
@@ -3032,6 +3094,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         long _comment_count;
         public long comment_count
         {
@@ -3443,6 +3506,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _object_id;
         public ulong object_id
         {
@@ -3462,6 +3526,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _term_taxonomy_id;
         public ulong term_taxonomy_id
         {
@@ -3481,6 +3546,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _term_order;
         public int term_order
         {
@@ -3892,6 +3958,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _term_taxonomy_id;
         public ulong term_taxonomy_id
         {
@@ -3911,6 +3978,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _term_id;
         public ulong term_id
         {
@@ -3930,6 +3998,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _taxonomy;
         public string taxonomy
         {
@@ -3949,6 +4018,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _description;
         public string description
         {
@@ -3968,6 +4038,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _parent;
         public ulong parent
         {
@@ -3987,6 +4058,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         long _count;
         public long count
         {
@@ -4398,6 +4470,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _term_id;
         public ulong term_id
         {
@@ -4417,6 +4490,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _name;
         public string name
         {
@@ -4436,6 +4510,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _slug;
         public string slug
         {
@@ -4455,6 +4530,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         long _term_group;
         public long term_group
         {
@@ -4866,6 +4942,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _umeta_id;
         public ulong umeta_id
         {
@@ -4885,6 +4962,7 @@ namespace WP
             }
         }
 
+        //Unsigned: True
         ulong _user_id;
         public ulong user_id
         {
@@ -4904,6 +4982,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _meta_key;
         public string meta_key
         {
@@ -4923,6 +5002,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _meta_value;
         public string meta_value
         {
@@ -5334,6 +5414,7 @@ namespace WP
         #endregion
         
 
+        //Unsigned: True
         ulong _ID;
         public ulong ID
         {
@@ -5353,6 +5434,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _user_login;
         public string user_login
         {
@@ -5372,6 +5454,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _user_pass;
         public string user_pass
         {
@@ -5391,6 +5474,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _user_nicename;
         public string user_nicename
         {
@@ -5410,6 +5494,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _user_email;
         public string user_email
         {
@@ -5429,6 +5514,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _user_url;
         public string user_url
         {
@@ -5448,6 +5534,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         DateTime _user_registered;
         public DateTime user_registered
         {
@@ -5467,6 +5554,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _user_activation_key;
         public string user_activation_key
         {
@@ -5486,6 +5574,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         int _user_status;
         public int user_status
         {
@@ -5505,6 +5594,7 @@ namespace WP
             }
         }
 
+        //Unsigned: False
         string _display_name;
         public string display_name
         {

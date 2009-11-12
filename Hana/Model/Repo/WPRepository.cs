@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SubSonic.Query;
 
 namespace Hana.Model.Repo {
     public class WPRepository:IBlogRepository {
@@ -15,8 +16,8 @@ namespace Hana.Model.Repo {
                        Body=c.comment_content,
                        CreatedAt=c.comment_date,
                        Email=c.comment_author_email,
-                       ID=(long)c.comment_ID,
-                       PostID=(long)c.comment_post_ID,
+                       ID=(ulong)c.comment_ID,
+                       PostID=(ulong)c.comment_post_ID,
                        ReplyToID=c.comment_reply_ID,
                        IP=c.comment_author_IP,
                        IsApproved=c.comment_approved=="1"
@@ -28,7 +29,7 @@ namespace Hana.Model.Repo {
             return from p in query
                    join a in WP.wp_user.All() on p.post_author equals a.ID
                    select new Post {
-                       ID = (long)p.ID,
+                       ID = (ulong)p.ID,
                        Author = a.display_name,
                        Body = p.post_content,
                        CreatedAt = p.post_date,
@@ -66,9 +67,9 @@ namespace Hana.Model.Repo {
         public Post GetPost(string slug, int year, int month, int day) {
             var post = GetPosts().Where(x => x.Slug == slug).SingleOrDefault();
 
-            if(post!=null)
+            if (post != null)
                 //add the comments
-                post.Comments = GetApprovedComments().Where(x => x.PostID == post.ID).ToList();
+                post.Comments = new Select().From<Comment>().Where<Comment>(x => x.PostID == post.ID).ToList<Comment>();
 
             return post;
         }
