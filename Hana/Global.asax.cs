@@ -4,15 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Reflection;
+using Ninject.Web.Mvc;
+using Ninject.Modules;
+using Ninject;
 
 namespace Hana {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : System.Web.HttpApplication {
+    public class MvcApplication : NinjectHttpApplication {
+        
         public static void RegisterRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            //ignore for now
+            routes.IgnoreRoute("favicon.ico");
+            routes.IgnoreRoute("MetaWeblogAPI.ashx");
             routes.MapRoute(
               "post",                                              // Route name
               "posts",                           // URL with parameters
@@ -46,8 +53,22 @@ namespace Hana {
 
         }
 
-        protected void Application_Start() {
+        protected override void OnApplicationStarted() {
             RegisterRoutes(RouteTable.Routes);
+            RegisterAllControllersIn(Assembly.GetExecutingAssembly());
+
+        }
+        protected override Ninject.IKernel CreateKernel() {
+            return new StandardKernel(new BlogModule());
+        }
+    
+    }
+
+    class BlogModule:NinjectModule{
+        public override void Load() {
+            //Bind<IBlogRepository>().To<WPRepository>();
         }
     }
+
+
 }

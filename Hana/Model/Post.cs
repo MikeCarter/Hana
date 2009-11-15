@@ -1,139 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using SubSonic.Extensions;
-using System.Text.RegularExpressions;
-using SubSonic.SqlGeneration.Schema;
+
 namespace Hana.Model {
-
-
-    [SubSonicTableNameOverride("wp_posts")]
-    public class Post {
-
-        public const string Status_Published = "published";
-        public const string Status_Offline = "pending";
-
-        public Post(string author, string title, string body):this() {
-            Author = author;
-            Title = title;
-            Body = body;
-            Slug = CreateSlug(title);
-            Excerpt = CreateSummary();
+    public partial class Post{
+        public static IQueryable<Post> PostsByCategory(string category)
+        {
+            var query = from p in Published()
+                        join cp in Categories_Post.All() on p.PostID equals cp.PostID
+                        join c in Category.All() on cp.CategoryID equals c.CategoryID
+                        where c.Description==category
+                        select p;
+            return query;
+        }
+        public static IQueryable<Post> Recent(int limit){
+            return Post.Published()
+                .OrderByDescending(x => x.PublishedOn).Take(limit);
+        }
+        public static IQueryable<Post> PostsByTags(string tag) {
+            var query = from p in Published()
+                        join tp in Tags_Post.All() on p.PostID equals tp.PostID
+                        join t in Tag.All() on tp.TagID equals t.TagID
+                        where t.Description==tag
+                        select p;
+            return query;
         }
 
-        public Post() {
-            
-            Title = "";
-            Slug = "";
-            Body = "";
-            Author = "";
-            Excerpt = "";
-            CreatedAt = DateTime.Now;
-            ModifiedAt = DateTime.Now;
-            PublishedAt = DateTime.Now;
-            Status = Status_Offline;
-            Comments = new List<Comment>();
-            Tags = new List<Tag>();
-            Categories = new List<Category>();
+        public static IQueryable<Post> Published() {
+            return Post.All().Where(x => x.PublishedOn <= DateTime.Now);
         }
 
-        public ulong ID { get; set; }
-        public string Title { get; set; }
-        public string Slug { get; set; }
-        public string Body { get; set; }
-        public string Author { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public DateTime PublishedAt { get; set; }
-        public string Status { get; set; }
-        public string Excerpt { get; set; }
-
-        public IList<Comment> Comments { get; set; }
-        public IList<Tag> Tags { get; set; }
-        public IList<Category> Categories{ get; set; }
-
-
-        public bool IsViewable {
-            get {
-                return PublishedAt <= DateTime.Now && Status == Status_Published;
-            }
+        public static IList<Category> Categories(int postID){
+            return (from p in Published()
+                        join cp in Categories_Post.All() on p.PostID equals cp.PostID
+                        join c in Category.All() on cp.CategoryID equals c.CategoryID
+                        where p.PostID == postID
+                        select c).ToList();
         }
 
-        string CreateSummary() {
-            string result = this.Body;
-            if (Body.Length > 300) {
+        public static string CreateSummary(Post post){
+            string result = post.Body;
 
-
-                if (Body.Length > 500) {
-                    result = result.Substring(0, 500);
+            if (post.Body.Contains("<!--more-->")) {
+                result= post.Body.Chop("<!--more-->");
+            } else {
+                var entry = post.Body.StripHTML();
+                //regex on the sentences and return the first 2
+                var reg = new Regex(@"[^.?!]+[.?!]");
+                var matches = reg.Matches(entry);
+                if (matches.Count > 1) {
+                    result = matches[0].Value + matches[1].Value;
+                } else if (matches.Count > 0) {
+                    result = matches[0].Value;
                 }
-
-                result = result.StripHTML();
-
-
-
-                if (result.Length > 300) {
-                    //find the next period, after the 300 mark
-                    var period = result.IndexOf(".");
-                    result = result.Substring(0, period + 1);
-
-                }
-
             }
+
             return result;
         }
-
-        string CreateSlug(string source) {
-            var regex = new Regex(@"([^a-z0-9\-]?)");
-            string slug = "";
-
-            if (!string.IsNullOrEmpty(source)) {
-                slug = source.Trim().ToLower();
-                slug = slug.Replace(' ', '-');
-                slug = slug.Replace("---", "-");
-                slug = slug.Replace("--", "-");
-                if (regex != null)
-                    slug = regex.Replace(slug, "");
-
-                if (slug.Length * 2 < source.Length)
-                    return "";
-
-                if (slug.Length > 100)
-                    slug = slug.Substring(0, 100);
-            }
-
-            return slug;
-
-        }
-
-        #region Object Overrides
-
-        public override bool Equals(object obj) {
-            if (obj.GetType() == typeof(Post)) {
-                Post compare = (Post)obj;
-                bool result = compare.Slug.Equals(this.Slug, StringComparison.CurrentCultureIgnoreCase)
-                    && compare.CreatedAt.Year == CreatedAt.Year
-                    && compare.CreatedAt.Month == CreatedAt.Month
-                    && compare.CreatedAt.Day == CreatedAt.Day;
-
-                return result;
-            } else {
-                return base.Equals(obj);
-            }
-
-        }
-
-        public override string ToString() {
-            return Title;
-        }
-
-        public override int GetHashCode() {
-            return ID.GetHashCode();
-        }
-        #endregion
-
-
     }
 
 }

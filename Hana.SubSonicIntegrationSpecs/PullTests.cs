@@ -55,7 +55,7 @@ namespace Hana.SubSonicIntegration {
         [Fact]
         public void GetPosts_Should_Return_list_of_Posts_by_status() {
 
-            var sql = "SELECT COUNT(ID) From wp_posts where post_status='published'";
+            var sql = "SELECT COUNT(ID) From wp_posts where post_status='publish'";
             var baseCount = new CodingHorror(provider, sql)
                 .ExecuteScalar<int>();
             var posts = repo.GetPosts()
@@ -71,15 +71,26 @@ namespace Hana.SubSonicIntegration {
 
             Assert.NotNull(post);
         }
+
         [Fact]
-        public void GetPosts_Should_Return_Single_Post() {
-            var post = repo.GetPost("temet-nosce", 0, 0, 0);
-            Assert.NotNull(post);
+        public void SubSonic_Should_Return_Authors_With_All_Information() {
+
+            var authors = WP.wp_user.All();
+            Assert.Equal("Rob Conery", authors.First().display_name);
+            Assert.Equal("rob@wekeroad.com", authors.First().user_email);
+        }
+        [Fact]
+        public void SubSonic_Should_Return_Posts_With_All_Information() {
+
+            var posts = WP.wp_post.All();
+            Assert.Equal("I'm Moving To SubText", posts.First().post_title);
+            Assert.True(posts.First().post_content.Length >0);
         }
 
-        class bip{
-
-            public ulong ID { get; set; }
+        [Fact]
+        public void GetPosts_Should_Return_Single_Post_Which_Is_Correctly_Bound() {
+            var post = repo.GetPost("temet-nosce", 0, 0, 0);
+            Assert.Equal("Temet Nosce", post.Title);
         }
     }
 }

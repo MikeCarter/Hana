@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.1.0.3, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
     <Reference Include="Db4objects.Db4o, Version=7.10.96.13184, Culture=neutral, PublicKeyToken=6199cd4f203aa8eb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Db4objects.Db4o.dll</HintPath>
@@ -99,10 +103,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommentSpecs.cs" />
-    <Compile Include="PostServiceSpecs.cs" />
-    <Compile Include="PostSpecs.cs" />
-    <Compile Include="PostViewModelSpecs.cs" />
+    <Compile Include="HomeViewModelTests.cs" />
+    <Compile Include="MetaWeblogTests.cs" />
+    <Compile Include="PostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +115,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Report.html" />
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

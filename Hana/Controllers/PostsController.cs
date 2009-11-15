@@ -4,19 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using Hana.Model;
 
 namespace Hana.Controllers
 {
     public class PostsController : Controller
     {
-        //
-        // GET: /Posts/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         //
         // GET: /Posts/Details/5
 

@@ -1,4 +1,4 @@
-<#@ include file="MySQL.ttinclude" #>
+<#@ include file="SQLServer.ttinclude" #>
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -342,7 +342,6 @@ namespace <#=Namespace #>
 				col.CleanName += "X";
 			}
 #>
-        //Unsigned: <#=col.IsUnsigned#>
         <#=col.SysType #><#=CheckNullable(col)#> _<#=col.CleanName #>;
         public <#=col.SysType #><#=CheckNullable(col)#> <#=col.CleanName #>
         {
@@ -409,8 +408,10 @@ namespace <#=Namespace #>
             this.ModifiedOn=DateTime.Now;
 <#}#>
             
-            if(this._dirtyColumns.Count>0)
+            if(this._dirtyColumns.Count>0){
                 _repo.Update(this,provider);
+                _dirtyColumns.Clear();    
+            }
             OnSaved();
        }
  

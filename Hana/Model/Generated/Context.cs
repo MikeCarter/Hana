@@ -13,9 +13,9 @@ using SubSonic.Schema;
 using System.Data.Common;
 using System.Collections.Generic;
 
-namespace WP
+namespace Hana.Model
 {
-    public partial class wekeroadDB : IQuerySurface
+    public partial class NorthwindDB : IQuerySurface
     {
 
         public IDataProvider DataProvider;
@@ -29,19 +29,19 @@ namespace WP
             }
         }
 
-        public wekeroadDB() 
+        public NorthwindDB() 
         { 
-            DataProvider = ProviderFactory.GetProvider("wp");
+            DataProvider = ProviderFactory.GetProvider("hana");
             Init();
         }
 
-        public wekeroadDB(string connectionStringName)
+        public NorthwindDB(string connectionStringName)
         {
             DataProvider = ProviderFactory.GetProvider(connectionStringName);
             Init();
         }
 
-		public wekeroadDB(string connectionString, string providerName)
+		public NorthwindDB(string connectionString, string providerName)
         {
             DataProvider = ProviderFactory.GetProvider(connectionString,providerName);
             Init();
@@ -121,16 +121,12 @@ namespace WP
             return null;
         }
 			
-        public Query<wp_comment> wp_comments { get; set; }
-        public Query<wp_link> wp_links { get; set; }
-        public Query<wp_option> wp_options { get; set; }
-        public Query<wp_postmetum> wp_postmeta { get; set; }
-        public Query<wp_post> wp_posts { get; set; }
-        public Query<wp_term_relationship> wp_term_relationships { get; set; }
-        public Query<wp_term_taxonomy> wp_term_taxonomies { get; set; }
-        public Query<wp_term> wp_terms { get; set; }
-        public Query<wp_usermetum> wp_usermeta { get; set; }
-        public Query<wp_user> wp_users { get; set; }
+        public Query<Categories_Post> Categories_Posts { get; set; }
+        public Query<Tags_Post> Tags_Posts { get; set; }
+        public Query<Tag> Tags { get; set; }
+        public Query<Category> Categories { get; set; }
+        public Query<Comment> Comments { get; set; }
+        public Query<Post> Posts { get; set; }
 
 			
 
@@ -234,32 +230,24 @@ namespace WP
             provider = new DbQueryProvider(this.Provider);
 
             #region ' Query Defs '
-            wp_comments = new Query<wp_comment>(provider);
-            wp_links = new Query<wp_link>(provider);
-            wp_options = new Query<wp_option>(provider);
-            wp_postmeta = new Query<wp_postmetum>(provider);
-            wp_posts = new Query<wp_post>(provider);
-            wp_term_relationships = new Query<wp_term_relationship>(provider);
-            wp_term_taxonomies = new Query<wp_term_taxonomy>(provider);
-            wp_terms = new Query<wp_term>(provider);
-            wp_usermeta = new Query<wp_usermetum>(provider);
-            wp_users = new Query<wp_user>(provider);
+            Categories_Posts = new Query<Categories_Post>(provider);
+            Tags_Posts = new Query<Tags_Post>(provider);
+            Tags = new Query<Tag>(provider);
+            Categories = new Query<Category>(provider);
+            Comments = new Query<Comment>(provider);
+            Posts = new Query<Post>(provider);
             #endregion
 
 
             #region ' Schemas '
         	if(DataProvider.Schema.Tables.Count == 0)
 			{
-            	DataProvider.Schema.Tables.Add(new wp_commentsTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_linksTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_optionsTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_postmetaTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_postsTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_term_relationshipsTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_term_taxonomyTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_termsTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_usermetaTable(DataProvider));
-            	DataProvider.Schema.Tables.Add(new wp_usersTable(DataProvider));
+            	DataProvider.Schema.Tables.Add(new Categories_PostsTable(DataProvider));
+            	DataProvider.Schema.Tables.Add(new Tags_PostsTable(DataProvider));
+            	DataProvider.Schema.Tables.Add(new TagsTable(DataProvider));
+            	DataProvider.Schema.Tables.Add(new CategoriesTable(DataProvider));
+            	DataProvider.Schema.Tables.Add(new CommentsTable(DataProvider));
+            	DataProvider.Schema.Tables.Add(new PostsTable(DataProvider));
             }
             #endregion
         }

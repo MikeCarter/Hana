@@ -16,40 +16,40 @@ using SubSonic.Repository;
 using System.ComponentModel;
 using System.Data.Common;
 
-namespace WP
+namespace Hana.Model
 {
     
     
     /// <summary>
-    /// A class which represents the wp_comments table in the wekeroad Database.
+    /// A class which represents the Categories_Posts table in the Northwind Database.
     /// </summary>
-    public partial class wp_comment: IActiveRecord
+    public partial class Categories_Post: IActiveRecord
     {
     
         #region Built-in testing
-        static TestRepository<wp_comment> _testRepo;
+        static TestRepository<Categories_Post> _testRepo;
         
 
         
         static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_comment>(new WP.wekeroadDB());
+            _testRepo = _testRepo ?? new TestRepository<Categories_Post>(new Hana.Model.NorthwindDB());
         }
         public static void ResetTestRepo(){
             _testRepo = null;
             SetTestRepo();
         }
-        public static void Setup(List<wp_comment> testlist){
+        public static void Setup(List<Categories_Post> testlist){
             SetTestRepo();
             _testRepo._items = testlist;
         }
-        public static void Setup(wp_comment item) {
+        public static void Setup(Categories_Post item) {
             SetTestRepo();
             _testRepo._items.Add(item);
         }
         public static void Setup(int testItems) {
             SetTestRepo();
             for(int i=0;i<testItems;i++){
-                wp_comment item=new wp_comment();
+                Categories_Post item=new Categories_Post();
                 _testRepo._items.Add(item);
             }
         }
@@ -59,7 +59,7 @@ namespace WP
 
         #endregion
 
-        IRepository<wp_comment> _repo;
+        IRepository<Categories_Post> _repo;
         ITable tbl;
         bool _isNew;
         public bool IsNew(){
@@ -89,20 +89,20 @@ namespace WP
             return _dirtyColumns;
         }
 
-        WP.wekeroadDB _db;
-        public wp_comment(string connectionString, string providerName) {
+        Hana.Model.NorthwindDB _db;
+        public Categories_Post(string connectionString, string providerName) {
 
-            _db=new WP.wekeroadDB(connectionString, providerName);
+            _db=new Hana.Model.NorthwindDB(connectionString, providerName);
             Init();            
          }
         void Init(){
             TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
             _dirtyColumns=new List<IColumn>();
             if(TestMode){
-                wp_comment.SetTestRepo();
+                Categories_Post.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_comment>(_db);
+                _repo = new SubSonicRepository<Categories_Post>(_db);
             }
             tbl=_repo.GetTable();
             SetIsNew(true);
@@ -110,8 +110,8 @@ namespace WP
 
         }
         
-        public wp_comment(){
-             _db=new WP.wekeroadDB();
+        public Categories_Post(){
+             _db=new Hana.Model.NorthwindDB();
             Init();            
         }
         
@@ -130,40 +130,40 @@ namespace WP
             }
         }
 
-        public wp_comment(Expression<Func<wp_comment, bool>> expression):this() {
+        public Categories_Post(Expression<Func<Categories_Post, bool>> expression):this() {
 
             SetIsLoaded(_repo.Load(this,expression));
         }
         
        
         
-        internal static IRepository<wp_comment> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
+        internal static IRepository<Categories_Post> GetRepo(string connectionString, string providerName){
+            Hana.Model.NorthwindDB db;
             if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
+                db=new Hana.Model.NorthwindDB();
             }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
+                db=new Hana.Model.NorthwindDB(connectionString, providerName);
             }
-            IRepository<wp_comment> _repo;
+            IRepository<Categories_Post> _repo;
             
             if(db.TestMode){
-                wp_comment.SetTestRepo();
+                Categories_Post.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_comment>(db);
+                _repo = new SubSonicRepository<Categories_Post>(db);
             }
             return _repo;        
         }       
         
-        internal static IRepository<wp_comment> GetRepo(){
+        internal static IRepository<Categories_Post> GetRepo(){
             return GetRepo("","");
         }
         
-        public static wp_comment SingleOrDefault(Expression<Func<wp_comment, bool>> expression) {
+        public static Categories_Post SingleOrDefault(Expression<Func<Categories_Post, bool>> expression) {
 
             var repo = GetRepo();
             var results=repo.Find(expression);
-            wp_comment single=null;
+            Categories_Post single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
                 single.OnLoaded();
@@ -174,10 +174,10 @@ namespace WP
             return single;
         }      
         
-        public static wp_comment SingleOrDefault(Expression<Func<wp_comment, bool>> expression,string connectionString, string providerName) {
+        public static Categories_Post SingleOrDefault(Expression<Func<Categories_Post, bool>> expression,string connectionString, string providerName) {
             var repo = GetRepo(connectionString,providerName);
             var results=repo.Find(expression);
-            wp_comment single=null;
+            Categories_Post single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
             }
@@ -188,114 +188,142 @@ namespace WP
         }
         
         
-        public static bool Exists(Expression<Func<wp_comment, bool>> expression,string connectionString, string providerName) {
+        public static bool Exists(Expression<Func<Categories_Post, bool>> expression,string connectionString, string providerName) {
            
             return All(connectionString,providerName).Any(expression);
         }        
-        public static bool Exists(Expression<Func<wp_comment, bool>> expression) {
+        public static bool Exists(Expression<Func<Categories_Post, bool>> expression) {
            
             return All().Any(expression);
         }        
 
-        public static IList<wp_comment> Find(Expression<Func<wp_comment, bool>> expression) {
+        public static IList<Categories_Post> Find(Expression<Func<Categories_Post, bool>> expression) {
             
             var repo = GetRepo();
             return repo.Find(expression).ToList();
         }
         
-        public static IList<wp_comment> Find(Expression<Func<wp_comment, bool>> expression,string connectionString, string providerName) {
+        public static IList<Categories_Post> Find(Expression<Func<Categories_Post, bool>> expression,string connectionString, string providerName) {
 
             var repo = GetRepo(connectionString,providerName);
             return repo.Find(expression).ToList();
 
         }
-        public static IQueryable<wp_comment> All(string connectionString, string providerName) {
+        public static IQueryable<Categories_Post> All(string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetAll();
         }
-        public static IQueryable<wp_comment> All() {
+        public static IQueryable<Categories_Post> All() {
             return GetRepo().GetAll();
         }
         
-        public static PagedList<wp_comment> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Categories_Post> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
         }
       
-        public static PagedList<wp_comment> GetPaged(string sortBy, int pageIndex, int pageSize) {
+        public static PagedList<Categories_Post> GetPaged(string sortBy, int pageIndex, int pageSize) {
             return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
         }
 
-        public static PagedList<wp_comment> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Categories_Post> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
             
         }
 
 
-        public static PagedList<wp_comment> GetPaged(int pageIndex, int pageSize) {
+        public static PagedList<Categories_Post> GetPaged(int pageIndex, int pageSize) {
             return GetRepo().GetPaged(pageIndex, pageSize);
             
         }
 
         public string KeyName()
         {
-            return "comment_ID";
+            return "CategoryID";
         }
 
         public object KeyValue()
         {
-            return this.comment_ID;
+            return this.CategoryID;
         }
         
         public void SetKeyValue(object value) {
             if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
+                var settable = value.ChangeTypeTo<int>();
                 this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
             }
         }
         
         public override string ToString(){
-            return this.comment_author.ToString();
+            return this.PostID.ToString();
         }
 
         public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_comment)){
-                wp_comment compare=(wp_comment)obj;
+            if(obj.GetType()==typeof(Categories_Post)){
+                Categories_Post compare=(Categories_Post)obj;
                 return compare.KeyValue()==this.KeyValue();
             }else{
                 return base.Equals(obj);
             }
         }
 
+        
+        public override int GetHashCode() {
+            return this.CategoryID;
+        }
+        
         public string DescriptorValue()
         {
-            return this.comment_author.ToString();
+            return this.PostID.ToString();
         }
 
         public string DescriptorColumn() {
-            return "comment_author";
+            return "PostID";
         }
         public static string GetKeyColumn()
         {
-            return "comment_ID";
+            return "CategoryID";
         }        
         public static string GetDescriptorColumn()
         {
-            return "comment_author";
+            return "PostID";
         }
         
         #region ' Foreign Keys '
+        public IQueryable<Category> Categories
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Category.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.CategoryID == _CategoryID
+                       select items;
+            }
+        }
+
+        public IQueryable<Post> Posts
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Post.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.PostID == _PostID
+                       select items;
+            }
+        }
+
         #endregion
         
 
-        //Unsigned: True
-        ulong _comment_ID;
-        public ulong comment_ID
+        int _CategoryID;
+        public int CategoryID
         {
-            get { return _comment_ID; }
+            get { return _CategoryID; }
             set
             {
-                if(_comment_ID!=value){
-                    _comment_ID=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_ID");
+                if(_CategoryID!=value){
+                    _CategoryID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CategoryID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -306,296 +334,15 @@ namespace WP
             }
         }
 
-        //Unsigned: True
-        ulong _comment_post_ID;
-        public ulong comment_post_ID
+        int _PostID;
+        public int PostID
         {
-            get { return _comment_post_ID; }
+            get { return _PostID; }
             set
             {
-                if(_comment_post_ID!=value){
-                    _comment_post_ID=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_post_ID");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_author;
-        public string comment_author
-        {
-            get { return _comment_author; }
-            set
-            {
-                if(_comment_author!=value){
-                    _comment_author=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_author");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_author_email;
-        public string comment_author_email
-        {
-            get { return _comment_author_email; }
-            set
-            {
-                if(_comment_author_email!=value){
-                    _comment_author_email=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_author_email");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_author_url;
-        public string comment_author_url
-        {
-            get { return _comment_author_url; }
-            set
-            {
-                if(_comment_author_url!=value){
-                    _comment_author_url=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_author_url");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_author_IP;
-        public string comment_author_IP
-        {
-            get { return _comment_author_IP; }
-            set
-            {
-                if(_comment_author_IP!=value){
-                    _comment_author_IP=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_author_IP");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        DateTime _comment_date;
-        public DateTime comment_date
-        {
-            get { return _comment_date; }
-            set
-            {
-                if(_comment_date!=value){
-                    _comment_date=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_date");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        DateTime _comment_date_gmt;
-        public DateTime comment_date_gmt
-        {
-            get { return _comment_date_gmt; }
-            set
-            {
-                if(_comment_date_gmt!=value){
-                    _comment_date_gmt=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_date_gmt");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_content;
-        public string comment_content
-        {
-            get { return _comment_content; }
-            set
-            {
-                if(_comment_content!=value){
-                    _comment_content=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_content");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        int _comment_karma;
-        public int comment_karma
-        {
-            get { return _comment_karma; }
-            set
-            {
-                if(_comment_karma!=value){
-                    _comment_karma=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_karma");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_approved;
-        public string comment_approved
-        {
-            get { return _comment_approved; }
-            set
-            {
-                if(_comment_approved!=value){
-                    _comment_approved=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_approved");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_agent;
-        public string comment_agent
-        {
-            get { return _comment_agent; }
-            set
-            {
-                if(_comment_agent!=value){
-                    _comment_agent=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_agent");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_type;
-        public string comment_type
-        {
-            get { return _comment_type; }
-            set
-            {
-                if(_comment_type!=value){
-                    _comment_type=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_type");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: True
-        ulong _comment_parent;
-        public ulong comment_parent
-        {
-            get { return _comment_parent; }
-            set
-            {
-                if(_comment_parent!=value){
-                    _comment_parent=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_parent");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: True
-        ulong _user_id;
-        public ulong user_id
-        {
-            get { return _user_id; }
-            set
-            {
-                if(_user_id!=value){
-                    _user_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_id");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        int _comment_reply_ID;
-        public int comment_reply_ID
-        {
-            get { return _comment_reply_ID; }
-            set
-            {
-                if(_comment_reply_ID!=value){
-                    _comment_reply_ID=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_reply_ID");
+                if(_PostID!=value){
+                    _PostID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="PostID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -638,8 +385,10 @@ namespace WP
         public void Update(IDataProvider provider){
         
             
-            if(this._dirtyColumns.Count>0)
+            if(this._dirtyColumns.Count>0){
                 _repo.Update(this,provider);
+                _dirtyColumns.Clear();    
+            }
             OnSaved();
        }
  
@@ -695,7 +444,7 @@ namespace WP
         }
 
 
-        public static void Delete(Expression<Func<wp_comment, bool>> expression) {
+        public static void Delete(Expression<Func<Categories_Post, bool>> expression) {
             var repo = GetRepo();
             
        
@@ -733,35 +482,35 @@ namespace WP
     
     
     /// <summary>
-    /// A class which represents the wp_links table in the wekeroad Database.
+    /// A class which represents the Tags_Posts table in the Northwind Database.
     /// </summary>
-    public partial class wp_link: IActiveRecord
+    public partial class Tags_Post: IActiveRecord
     {
     
         #region Built-in testing
-        static TestRepository<wp_link> _testRepo;
+        static TestRepository<Tags_Post> _testRepo;
         
 
         
         static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_link>(new WP.wekeroadDB());
+            _testRepo = _testRepo ?? new TestRepository<Tags_Post>(new Hana.Model.NorthwindDB());
         }
         public static void ResetTestRepo(){
             _testRepo = null;
             SetTestRepo();
         }
-        public static void Setup(List<wp_link> testlist){
+        public static void Setup(List<Tags_Post> testlist){
             SetTestRepo();
             _testRepo._items = testlist;
         }
-        public static void Setup(wp_link item) {
+        public static void Setup(Tags_Post item) {
             SetTestRepo();
             _testRepo._items.Add(item);
         }
         public static void Setup(int testItems) {
             SetTestRepo();
             for(int i=0;i<testItems;i++){
-                wp_link item=new wp_link();
+                Tags_Post item=new Tags_Post();
                 _testRepo._items.Add(item);
             }
         }
@@ -771,7 +520,7 @@ namespace WP
 
         #endregion
 
-        IRepository<wp_link> _repo;
+        IRepository<Tags_Post> _repo;
         ITable tbl;
         bool _isNew;
         public bool IsNew(){
@@ -801,20 +550,20 @@ namespace WP
             return _dirtyColumns;
         }
 
-        WP.wekeroadDB _db;
-        public wp_link(string connectionString, string providerName) {
+        Hana.Model.NorthwindDB _db;
+        public Tags_Post(string connectionString, string providerName) {
 
-            _db=new WP.wekeroadDB(connectionString, providerName);
+            _db=new Hana.Model.NorthwindDB(connectionString, providerName);
             Init();            
          }
         void Init(){
             TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
             _dirtyColumns=new List<IColumn>();
             if(TestMode){
-                wp_link.SetTestRepo();
+                Tags_Post.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_link>(_db);
+                _repo = new SubSonicRepository<Tags_Post>(_db);
             }
             tbl=_repo.GetTable();
             SetIsNew(true);
@@ -822,8 +571,8 @@ namespace WP
 
         }
         
-        public wp_link(){
-             _db=new WP.wekeroadDB();
+        public Tags_Post(){
+             _db=new Hana.Model.NorthwindDB();
             Init();            
         }
         
@@ -842,40 +591,40 @@ namespace WP
             }
         }
 
-        public wp_link(Expression<Func<wp_link, bool>> expression):this() {
+        public Tags_Post(Expression<Func<Tags_Post, bool>> expression):this() {
 
             SetIsLoaded(_repo.Load(this,expression));
         }
         
        
         
-        internal static IRepository<wp_link> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
+        internal static IRepository<Tags_Post> GetRepo(string connectionString, string providerName){
+            Hana.Model.NorthwindDB db;
             if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
+                db=new Hana.Model.NorthwindDB();
             }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
+                db=new Hana.Model.NorthwindDB(connectionString, providerName);
             }
-            IRepository<wp_link> _repo;
+            IRepository<Tags_Post> _repo;
             
             if(db.TestMode){
-                wp_link.SetTestRepo();
+                Tags_Post.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_link>(db);
+                _repo = new SubSonicRepository<Tags_Post>(db);
             }
             return _repo;        
         }       
         
-        internal static IRepository<wp_link> GetRepo(){
+        internal static IRepository<Tags_Post> GetRepo(){
             return GetRepo("","");
         }
         
-        public static wp_link SingleOrDefault(Expression<Func<wp_link, bool>> expression) {
+        public static Tags_Post SingleOrDefault(Expression<Func<Tags_Post, bool>> expression) {
 
             var repo = GetRepo();
             var results=repo.Find(expression);
-            wp_link single=null;
+            Tags_Post single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
                 single.OnLoaded();
@@ -886,10 +635,10 @@ namespace WP
             return single;
         }      
         
-        public static wp_link SingleOrDefault(Expression<Func<wp_link, bool>> expression,string connectionString, string providerName) {
+        public static Tags_Post SingleOrDefault(Expression<Func<Tags_Post, bool>> expression,string connectionString, string providerName) {
             var repo = GetRepo(connectionString,providerName);
             var results=repo.Find(expression);
-            wp_link single=null;
+            Tags_Post single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
             }
@@ -900,114 +649,142 @@ namespace WP
         }
         
         
-        public static bool Exists(Expression<Func<wp_link, bool>> expression,string connectionString, string providerName) {
+        public static bool Exists(Expression<Func<Tags_Post, bool>> expression,string connectionString, string providerName) {
            
             return All(connectionString,providerName).Any(expression);
         }        
-        public static bool Exists(Expression<Func<wp_link, bool>> expression) {
+        public static bool Exists(Expression<Func<Tags_Post, bool>> expression) {
            
             return All().Any(expression);
         }        
 
-        public static IList<wp_link> Find(Expression<Func<wp_link, bool>> expression) {
+        public static IList<Tags_Post> Find(Expression<Func<Tags_Post, bool>> expression) {
             
             var repo = GetRepo();
             return repo.Find(expression).ToList();
         }
         
-        public static IList<wp_link> Find(Expression<Func<wp_link, bool>> expression,string connectionString, string providerName) {
+        public static IList<Tags_Post> Find(Expression<Func<Tags_Post, bool>> expression,string connectionString, string providerName) {
 
             var repo = GetRepo(connectionString,providerName);
             return repo.Find(expression).ToList();
 
         }
-        public static IQueryable<wp_link> All(string connectionString, string providerName) {
+        public static IQueryable<Tags_Post> All(string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetAll();
         }
-        public static IQueryable<wp_link> All() {
+        public static IQueryable<Tags_Post> All() {
             return GetRepo().GetAll();
         }
         
-        public static PagedList<wp_link> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Tags_Post> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
         }
       
-        public static PagedList<wp_link> GetPaged(string sortBy, int pageIndex, int pageSize) {
+        public static PagedList<Tags_Post> GetPaged(string sortBy, int pageIndex, int pageSize) {
             return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
         }
 
-        public static PagedList<wp_link> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Tags_Post> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
             
         }
 
 
-        public static PagedList<wp_link> GetPaged(int pageIndex, int pageSize) {
+        public static PagedList<Tags_Post> GetPaged(int pageIndex, int pageSize) {
             return GetRepo().GetPaged(pageIndex, pageSize);
             
         }
 
         public string KeyName()
         {
-            return "link_id";
+            return "PostID";
         }
 
         public object KeyValue()
         {
-            return this.link_id;
+            return this.PostID;
         }
         
         public void SetKeyValue(object value) {
             if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
+                var settable = value.ChangeTypeTo<int>();
                 this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
             }
         }
         
         public override string ToString(){
-            return this.link_url.ToString();
+            return this.PostID.ToString();
         }
 
         public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_link)){
-                wp_link compare=(wp_link)obj;
+            if(obj.GetType()==typeof(Tags_Post)){
+                Tags_Post compare=(Tags_Post)obj;
                 return compare.KeyValue()==this.KeyValue();
             }else{
                 return base.Equals(obj);
             }
         }
 
+        
+        public override int GetHashCode() {
+            return this.PostID;
+        }
+        
         public string DescriptorValue()
         {
-            return this.link_url.ToString();
+            return this.PostID.ToString();
         }
 
         public string DescriptorColumn() {
-            return "link_url";
+            return "PostID";
         }
         public static string GetKeyColumn()
         {
-            return "link_id";
+            return "PostID";
         }        
         public static string GetDescriptorColumn()
         {
-            return "link_url";
+            return "PostID";
         }
         
         #region ' Foreign Keys '
+        public IQueryable<Post> Posts
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Post.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.PostID == _PostID
+                       select items;
+            }
+        }
+
+        public IQueryable<Tag> Tags
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Tag.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.TagID == _TagID
+                       select items;
+            }
+        }
+
         #endregion
         
 
-        //Unsigned: True
-        ulong _link_id;
-        public ulong link_id
+        int _TagID;
+        public int TagID
         {
-            get { return _link_id; }
+            get { return _TagID; }
             set
             {
-                if(_link_id!=value){
-                    _link_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_id");
+                if(_TagID!=value){
+                    _TagID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="TagID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -1018,256 +795,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        string _link_url;
-        public string link_url
+        int _PostID;
+        public int PostID
         {
-            get { return _link_url; }
+            get { return _PostID; }
             set
             {
-                if(_link_url!=value){
-                    _link_url=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_url");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_name;
-        public string link_name
-        {
-            get { return _link_name; }
-            set
-            {
-                if(_link_name!=value){
-                    _link_name=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_name");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_image;
-        public string link_image
-        {
-            get { return _link_image; }
-            set
-            {
-                if(_link_image!=value){
-                    _link_image=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_image");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_target;
-        public string link_target
-        {
-            get { return _link_target; }
-            set
-            {
-                if(_link_target!=value){
-                    _link_target=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_target");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        long _link_category;
-        public long link_category
-        {
-            get { return _link_category; }
-            set
-            {
-                if(_link_category!=value){
-                    _link_category=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_category");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_description;
-        public string link_description
-        {
-            get { return _link_description; }
-            set
-            {
-                if(_link_description!=value){
-                    _link_description=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_description");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_visible;
-        public string link_visible
-        {
-            get { return _link_visible; }
-            set
-            {
-                if(_link_visible!=value){
-                    _link_visible=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_visible");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: True
-        ulong _link_owner;
-        public ulong link_owner
-        {
-            get { return _link_owner; }
-            set
-            {
-                if(_link_owner!=value){
-                    _link_owner=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_owner");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        int _link_rating;
-        public int link_rating
-        {
-            get { return _link_rating; }
-            set
-            {
-                if(_link_rating!=value){
-                    _link_rating=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_rating");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        DateTime _link_updated;
-        public DateTime link_updated
-        {
-            get { return _link_updated; }
-            set
-            {
-                if(_link_updated!=value){
-                    _link_updated=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_updated");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_rel;
-        public string link_rel
-        {
-            get { return _link_rel; }
-            set
-            {
-                if(_link_rel!=value){
-                    _link_rel=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_rel");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_notes;
-        public string link_notes
-        {
-            get { return _link_notes; }
-            set
-            {
-                if(_link_notes!=value){
-                    _link_notes=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_notes");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _link_rss;
-        public string link_rss
-        {
-            get { return _link_rss; }
-            set
-            {
-                if(_link_rss!=value){
-                    _link_rss=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="link_rss");
+                if(_PostID!=value){
+                    _PostID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="PostID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -1310,8 +846,10 @@ namespace WP
         public void Update(IDataProvider provider){
         
             
-            if(this._dirtyColumns.Count>0)
+            if(this._dirtyColumns.Count>0){
                 _repo.Update(this,provider);
+                _dirtyColumns.Clear();    
+            }
             OnSaved();
        }
  
@@ -1367,7 +905,7 @@ namespace WP
         }
 
 
-        public static void Delete(Expression<Func<wp_link, bool>> expression) {
+        public static void Delete(Expression<Func<Tags_Post, bool>> expression) {
             var repo = GetRepo();
             
        
@@ -1405,35 +943,35 @@ namespace WP
     
     
     /// <summary>
-    /// A class which represents the wp_options table in the wekeroad Database.
+    /// A class which represents the Tags table in the Northwind Database.
     /// </summary>
-    public partial class wp_option: IActiveRecord
+    public partial class Tag: IActiveRecord
     {
     
         #region Built-in testing
-        static TestRepository<wp_option> _testRepo;
+        static TestRepository<Tag> _testRepo;
         
 
         
         static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_option>(new WP.wekeroadDB());
+            _testRepo = _testRepo ?? new TestRepository<Tag>(new Hana.Model.NorthwindDB());
         }
         public static void ResetTestRepo(){
             _testRepo = null;
             SetTestRepo();
         }
-        public static void Setup(List<wp_option> testlist){
+        public static void Setup(List<Tag> testlist){
             SetTestRepo();
             _testRepo._items = testlist;
         }
-        public static void Setup(wp_option item) {
+        public static void Setup(Tag item) {
             SetTestRepo();
             _testRepo._items.Add(item);
         }
         public static void Setup(int testItems) {
             SetTestRepo();
             for(int i=0;i<testItems;i++){
-                wp_option item=new wp_option();
+                Tag item=new Tag();
                 _testRepo._items.Add(item);
             }
         }
@@ -1443,7 +981,7 @@ namespace WP
 
         #endregion
 
-        IRepository<wp_option> _repo;
+        IRepository<Tag> _repo;
         ITable tbl;
         bool _isNew;
         public bool IsNew(){
@@ -1473,20 +1011,20 @@ namespace WP
             return _dirtyColumns;
         }
 
-        WP.wekeroadDB _db;
-        public wp_option(string connectionString, string providerName) {
+        Hana.Model.NorthwindDB _db;
+        public Tag(string connectionString, string providerName) {
 
-            _db=new WP.wekeroadDB(connectionString, providerName);
+            _db=new Hana.Model.NorthwindDB(connectionString, providerName);
             Init();            
          }
         void Init(){
             TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
             _dirtyColumns=new List<IColumn>();
             if(TestMode){
-                wp_option.SetTestRepo();
+                Tag.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_option>(_db);
+                _repo = new SubSonicRepository<Tag>(_db);
             }
             tbl=_repo.GetTable();
             SetIsNew(true);
@@ -1494,8 +1032,8 @@ namespace WP
 
         }
         
-        public wp_option(){
-             _db=new WP.wekeroadDB();
+        public Tag(){
+             _db=new Hana.Model.NorthwindDB();
             Init();            
         }
         
@@ -1514,40 +1052,40 @@ namespace WP
             }
         }
 
-        public wp_option(Expression<Func<wp_option, bool>> expression):this() {
+        public Tag(Expression<Func<Tag, bool>> expression):this() {
 
             SetIsLoaded(_repo.Load(this,expression));
         }
         
        
         
-        internal static IRepository<wp_option> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
+        internal static IRepository<Tag> GetRepo(string connectionString, string providerName){
+            Hana.Model.NorthwindDB db;
             if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
+                db=new Hana.Model.NorthwindDB();
             }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
+                db=new Hana.Model.NorthwindDB(connectionString, providerName);
             }
-            IRepository<wp_option> _repo;
+            IRepository<Tag> _repo;
             
             if(db.TestMode){
-                wp_option.SetTestRepo();
+                Tag.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_option>(db);
+                _repo = new SubSonicRepository<Tag>(db);
             }
             return _repo;        
         }       
         
-        internal static IRepository<wp_option> GetRepo(){
+        internal static IRepository<Tag> GetRepo(){
             return GetRepo("","");
         }
         
-        public static wp_option SingleOrDefault(Expression<Func<wp_option, bool>> expression) {
+        public static Tag SingleOrDefault(Expression<Func<Tag, bool>> expression) {
 
             var repo = GetRepo();
             var results=repo.Find(expression);
-            wp_option single=null;
+            Tag single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
                 single.OnLoaded();
@@ -1558,10 +1096,10 @@ namespace WP
             return single;
         }      
         
-        public static wp_option SingleOrDefault(Expression<Func<wp_option, bool>> expression,string connectionString, string providerName) {
+        public static Tag SingleOrDefault(Expression<Func<Tag, bool>> expression,string connectionString, string providerName) {
             var repo = GetRepo(connectionString,providerName);
             var results=repo.Find(expression);
-            wp_option single=null;
+            Tag single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
             }
@@ -1572,114 +1110,130 @@ namespace WP
         }
         
         
-        public static bool Exists(Expression<Func<wp_option, bool>> expression,string connectionString, string providerName) {
+        public static bool Exists(Expression<Func<Tag, bool>> expression,string connectionString, string providerName) {
            
             return All(connectionString,providerName).Any(expression);
         }        
-        public static bool Exists(Expression<Func<wp_option, bool>> expression) {
+        public static bool Exists(Expression<Func<Tag, bool>> expression) {
            
             return All().Any(expression);
         }        
 
-        public static IList<wp_option> Find(Expression<Func<wp_option, bool>> expression) {
+        public static IList<Tag> Find(Expression<Func<Tag, bool>> expression) {
             
             var repo = GetRepo();
             return repo.Find(expression).ToList();
         }
         
-        public static IList<wp_option> Find(Expression<Func<wp_option, bool>> expression,string connectionString, string providerName) {
+        public static IList<Tag> Find(Expression<Func<Tag, bool>> expression,string connectionString, string providerName) {
 
             var repo = GetRepo(connectionString,providerName);
             return repo.Find(expression).ToList();
 
         }
-        public static IQueryable<wp_option> All(string connectionString, string providerName) {
+        public static IQueryable<Tag> All(string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetAll();
         }
-        public static IQueryable<wp_option> All() {
+        public static IQueryable<Tag> All() {
             return GetRepo().GetAll();
         }
         
-        public static PagedList<wp_option> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Tag> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
         }
       
-        public static PagedList<wp_option> GetPaged(string sortBy, int pageIndex, int pageSize) {
+        public static PagedList<Tag> GetPaged(string sortBy, int pageIndex, int pageSize) {
             return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
         }
 
-        public static PagedList<wp_option> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Tag> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
             
         }
 
 
-        public static PagedList<wp_option> GetPaged(int pageIndex, int pageSize) {
+        public static PagedList<Tag> GetPaged(int pageIndex, int pageSize) {
             return GetRepo().GetPaged(pageIndex, pageSize);
             
         }
 
         public string KeyName()
         {
-            return "option_id";
+            return "TagID";
         }
 
         public object KeyValue()
         {
-            return this.option_id;
+            return this.TagID;
         }
         
         public void SetKeyValue(object value) {
             if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
+                var settable = value.ChangeTypeTo<int>();
                 this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
             }
         }
         
         public override string ToString(){
-            return this.option_name.ToString();
+            return this.Description.ToString();
         }
 
         public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_option)){
-                wp_option compare=(wp_option)obj;
+            if(obj.GetType()==typeof(Tag)){
+                Tag compare=(Tag)obj;
                 return compare.KeyValue()==this.KeyValue();
             }else{
                 return base.Equals(obj);
             }
         }
 
+        
+        public override int GetHashCode() {
+            return this.TagID;
+        }
+        
         public string DescriptorValue()
         {
-            return this.option_name.ToString();
+            return this.Description.ToString();
         }
 
         public string DescriptorColumn() {
-            return "option_name";
+            return "Description";
         }
         public static string GetKeyColumn()
         {
-            return "option_id";
+            return "TagID";
         }        
         public static string GetDescriptorColumn()
         {
-            return "option_name";
+            return "Description";
         }
         
         #region ' Foreign Keys '
+        public IQueryable<Tags_Post> Tags_Posts
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Tags_Post.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.TagID == _TagID
+                       select items;
+            }
+        }
+
         #endregion
         
 
-        //Unsigned: True
-        ulong _option_id;
-        public ulong option_id
+        int _TagID;
+        public int TagID
         {
-            get { return _option_id; }
+            get { return _TagID; }
             set
             {
-                if(_option_id!=value){
-                    _option_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="option_id");
+                if(_TagID!=value){
+                    _TagID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="TagID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -1690,16 +1244,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        int _blog_id;
-        public int blog_id
+        string _Description;
+        public string Description
         {
-            get { return _blog_id; }
+            get { return _Description; }
             set
             {
-                if(_blog_id!=value){
-                    _blog_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="blog_id");
+                if(_Description!=value){
+                    _Description=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Description");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -1710,56 +1263,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        string _option_name;
-        public string option_name
+        string _Slug;
+        public string Slug
         {
-            get { return _option_name; }
+            get { return _Slug; }
             set
             {
-                if(_option_name!=value){
-                    _option_name=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="option_name");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _option_value;
-        public string option_value
-        {
-            get { return _option_value; }
-            set
-            {
-                if(_option_value!=value){
-                    _option_value=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="option_value");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _autoload;
-        public string autoload
-        {
-            get { return _autoload; }
-            set
-            {
-                if(_autoload!=value){
-                    _autoload=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="autoload");
+                if(_Slug!=value){
+                    _Slug=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Slug");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -1802,8 +1314,10 @@ namespace WP
         public void Update(IDataProvider provider){
         
             
-            if(this._dirtyColumns.Count>0)
+            if(this._dirtyColumns.Count>0){
                 _repo.Update(this,provider);
+                _dirtyColumns.Clear();    
+            }
             OnSaved();
        }
  
@@ -1859,7 +1373,7 @@ namespace WP
         }
 
 
-        public static void Delete(Expression<Func<wp_option, bool>> expression) {
+        public static void Delete(Expression<Func<Tag, bool>> expression) {
             var repo = GetRepo();
             
        
@@ -1897,35 +1411,35 @@ namespace WP
     
     
     /// <summary>
-    /// A class which represents the wp_postmeta table in the wekeroad Database.
+    /// A class which represents the Categories table in the Northwind Database.
     /// </summary>
-    public partial class wp_postmetum: IActiveRecord
+    public partial class Category: IActiveRecord
     {
     
         #region Built-in testing
-        static TestRepository<wp_postmetum> _testRepo;
+        static TestRepository<Category> _testRepo;
         
 
         
         static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_postmetum>(new WP.wekeroadDB());
+            _testRepo = _testRepo ?? new TestRepository<Category>(new Hana.Model.NorthwindDB());
         }
         public static void ResetTestRepo(){
             _testRepo = null;
             SetTestRepo();
         }
-        public static void Setup(List<wp_postmetum> testlist){
+        public static void Setup(List<Category> testlist){
             SetTestRepo();
             _testRepo._items = testlist;
         }
-        public static void Setup(wp_postmetum item) {
+        public static void Setup(Category item) {
             SetTestRepo();
             _testRepo._items.Add(item);
         }
         public static void Setup(int testItems) {
             SetTestRepo();
             for(int i=0;i<testItems;i++){
-                wp_postmetum item=new wp_postmetum();
+                Category item=new Category();
                 _testRepo._items.Add(item);
             }
         }
@@ -1935,7 +1449,7 @@ namespace WP
 
         #endregion
 
-        IRepository<wp_postmetum> _repo;
+        IRepository<Category> _repo;
         ITable tbl;
         bool _isNew;
         public bool IsNew(){
@@ -1965,20 +1479,20 @@ namespace WP
             return _dirtyColumns;
         }
 
-        WP.wekeroadDB _db;
-        public wp_postmetum(string connectionString, string providerName) {
+        Hana.Model.NorthwindDB _db;
+        public Category(string connectionString, string providerName) {
 
-            _db=new WP.wekeroadDB(connectionString, providerName);
+            _db=new Hana.Model.NorthwindDB(connectionString, providerName);
             Init();            
          }
         void Init(){
             TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
             _dirtyColumns=new List<IColumn>();
             if(TestMode){
-                wp_postmetum.SetTestRepo();
+                Category.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_postmetum>(_db);
+                _repo = new SubSonicRepository<Category>(_db);
             }
             tbl=_repo.GetTable();
             SetIsNew(true);
@@ -1986,8 +1500,8 @@ namespace WP
 
         }
         
-        public wp_postmetum(){
-             _db=new WP.wekeroadDB();
+        public Category(){
+             _db=new Hana.Model.NorthwindDB();
             Init();            
         }
         
@@ -2006,40 +1520,40 @@ namespace WP
             }
         }
 
-        public wp_postmetum(Expression<Func<wp_postmetum, bool>> expression):this() {
+        public Category(Expression<Func<Category, bool>> expression):this() {
 
             SetIsLoaded(_repo.Load(this,expression));
         }
         
        
         
-        internal static IRepository<wp_postmetum> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
+        internal static IRepository<Category> GetRepo(string connectionString, string providerName){
+            Hana.Model.NorthwindDB db;
             if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
+                db=new Hana.Model.NorthwindDB();
             }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
+                db=new Hana.Model.NorthwindDB(connectionString, providerName);
             }
-            IRepository<wp_postmetum> _repo;
+            IRepository<Category> _repo;
             
             if(db.TestMode){
-                wp_postmetum.SetTestRepo();
+                Category.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_postmetum>(db);
+                _repo = new SubSonicRepository<Category>(db);
             }
             return _repo;        
         }       
         
-        internal static IRepository<wp_postmetum> GetRepo(){
+        internal static IRepository<Category> GetRepo(){
             return GetRepo("","");
         }
         
-        public static wp_postmetum SingleOrDefault(Expression<Func<wp_postmetum, bool>> expression) {
+        public static Category SingleOrDefault(Expression<Func<Category, bool>> expression) {
 
             var repo = GetRepo();
             var results=repo.Find(expression);
-            wp_postmetum single=null;
+            Category single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
                 single.OnLoaded();
@@ -2050,10 +1564,10 @@ namespace WP
             return single;
         }      
         
-        public static wp_postmetum SingleOrDefault(Expression<Func<wp_postmetum, bool>> expression,string connectionString, string providerName) {
+        public static Category SingleOrDefault(Expression<Func<Category, bool>> expression,string connectionString, string providerName) {
             var repo = GetRepo(connectionString,providerName);
             var results=repo.Find(expression);
-            wp_postmetum single=null;
+            Category single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
             }
@@ -2064,114 +1578,130 @@ namespace WP
         }
         
         
-        public static bool Exists(Expression<Func<wp_postmetum, bool>> expression,string connectionString, string providerName) {
+        public static bool Exists(Expression<Func<Category, bool>> expression,string connectionString, string providerName) {
            
             return All(connectionString,providerName).Any(expression);
         }        
-        public static bool Exists(Expression<Func<wp_postmetum, bool>> expression) {
+        public static bool Exists(Expression<Func<Category, bool>> expression) {
            
             return All().Any(expression);
         }        
 
-        public static IList<wp_postmetum> Find(Expression<Func<wp_postmetum, bool>> expression) {
+        public static IList<Category> Find(Expression<Func<Category, bool>> expression) {
             
             var repo = GetRepo();
             return repo.Find(expression).ToList();
         }
         
-        public static IList<wp_postmetum> Find(Expression<Func<wp_postmetum, bool>> expression,string connectionString, string providerName) {
+        public static IList<Category> Find(Expression<Func<Category, bool>> expression,string connectionString, string providerName) {
 
             var repo = GetRepo(connectionString,providerName);
             return repo.Find(expression).ToList();
 
         }
-        public static IQueryable<wp_postmetum> All(string connectionString, string providerName) {
+        public static IQueryable<Category> All(string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetAll();
         }
-        public static IQueryable<wp_postmetum> All() {
+        public static IQueryable<Category> All() {
             return GetRepo().GetAll();
         }
         
-        public static PagedList<wp_postmetum> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Category> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
         }
       
-        public static PagedList<wp_postmetum> GetPaged(string sortBy, int pageIndex, int pageSize) {
+        public static PagedList<Category> GetPaged(string sortBy, int pageIndex, int pageSize) {
             return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
         }
 
-        public static PagedList<wp_postmetum> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Category> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
             
         }
 
 
-        public static PagedList<wp_postmetum> GetPaged(int pageIndex, int pageSize) {
+        public static PagedList<Category> GetPaged(int pageIndex, int pageSize) {
             return GetRepo().GetPaged(pageIndex, pageSize);
             
         }
 
         public string KeyName()
         {
-            return "meta_id";
+            return "CategoryID";
         }
 
         public object KeyValue()
         {
-            return this.meta_id;
+            return this.CategoryID;
         }
         
         public void SetKeyValue(object value) {
             if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
+                var settable = value.ChangeTypeTo<int>();
                 this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
             }
         }
         
         public override string ToString(){
-            return this.meta_key.ToString();
+            return this.Description.ToString();
         }
 
         public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_postmetum)){
-                wp_postmetum compare=(wp_postmetum)obj;
+            if(obj.GetType()==typeof(Category)){
+                Category compare=(Category)obj;
                 return compare.KeyValue()==this.KeyValue();
             }else{
                 return base.Equals(obj);
             }
         }
 
+        
+        public override int GetHashCode() {
+            return this.CategoryID;
+        }
+        
         public string DescriptorValue()
         {
-            return this.meta_key.ToString();
+            return this.Description.ToString();
         }
 
         public string DescriptorColumn() {
-            return "meta_key";
+            return "Description";
         }
         public static string GetKeyColumn()
         {
-            return "meta_id";
+            return "CategoryID";
         }        
         public static string GetDescriptorColumn()
         {
-            return "meta_key";
+            return "Description";
         }
         
         #region ' Foreign Keys '
+        public IQueryable<Categories_Post> Categories_Posts
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Categories_Post.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.CategoryID == _CategoryID
+                       select items;
+            }
+        }
+
         #endregion
         
 
-        //Unsigned: True
-        ulong _meta_id;
-        public ulong meta_id
+        int _CategoryID;
+        public int CategoryID
         {
-            get { return _meta_id; }
+            get { return _CategoryID; }
             set
             {
-                if(_meta_id!=value){
-                    _meta_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="meta_id");
+                if(_CategoryID!=value){
+                    _CategoryID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CategoryID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2182,16 +1712,15 @@ namespace WP
             }
         }
 
-        //Unsigned: True
-        ulong _post_id;
-        public ulong post_id
+        string _Description;
+        public string Description
         {
-            get { return _post_id; }
+            get { return _Description; }
             set
             {
-                if(_post_id!=value){
-                    _post_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_id");
+                if(_Description!=value){
+                    _Description=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Description");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2202,36 +1731,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        string _meta_key;
-        public string meta_key
+        string _Slug;
+        public string Slug
         {
-            get { return _meta_key; }
+            get { return _Slug; }
             set
             {
-                if(_meta_key!=value){
-                    _meta_key=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="meta_key");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _meta_value;
-        public string meta_value
-        {
-            get { return _meta_value; }
-            set
-            {
-                if(_meta_value!=value){
-                    _meta_value=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="meta_value");
+                if(_Slug!=value){
+                    _Slug=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Slug");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2274,8 +1782,10 @@ namespace WP
         public void Update(IDataProvider provider){
         
             
-            if(this._dirtyColumns.Count>0)
+            if(this._dirtyColumns.Count>0){
                 _repo.Update(this,provider);
+                _dirtyColumns.Clear();    
+            }
             OnSaved();
        }
  
@@ -2331,7 +1841,7 @@ namespace WP
         }
 
 
-        public static void Delete(Expression<Func<wp_postmetum, bool>> expression) {
+        public static void Delete(Expression<Func<Category, bool>> expression) {
             var repo = GetRepo();
             
        
@@ -2369,35 +1879,35 @@ namespace WP
     
     
     /// <summary>
-    /// A class which represents the wp_posts table in the wekeroad Database.
+    /// A class which represents the Comments table in the Northwind Database.
     /// </summary>
-    public partial class wp_post: IActiveRecord
+    public partial class Comment: IActiveRecord
     {
     
         #region Built-in testing
-        static TestRepository<wp_post> _testRepo;
+        static TestRepository<Comment> _testRepo;
         
 
         
         static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_post>(new WP.wekeroadDB());
+            _testRepo = _testRepo ?? new TestRepository<Comment>(new Hana.Model.NorthwindDB());
         }
         public static void ResetTestRepo(){
             _testRepo = null;
             SetTestRepo();
         }
-        public static void Setup(List<wp_post> testlist){
+        public static void Setup(List<Comment> testlist){
             SetTestRepo();
             _testRepo._items = testlist;
         }
-        public static void Setup(wp_post item) {
+        public static void Setup(Comment item) {
             SetTestRepo();
             _testRepo._items.Add(item);
         }
         public static void Setup(int testItems) {
             SetTestRepo();
             for(int i=0;i<testItems;i++){
-                wp_post item=new wp_post();
+                Comment item=new Comment();
                 _testRepo._items.Add(item);
             }
         }
@@ -2407,7 +1917,7 @@ namespace WP
 
         #endregion
 
-        IRepository<wp_post> _repo;
+        IRepository<Comment> _repo;
         ITable tbl;
         bool _isNew;
         public bool IsNew(){
@@ -2437,20 +1947,20 @@ namespace WP
             return _dirtyColumns;
         }
 
-        WP.wekeroadDB _db;
-        public wp_post(string connectionString, string providerName) {
+        Hana.Model.NorthwindDB _db;
+        public Comment(string connectionString, string providerName) {
 
-            _db=new WP.wekeroadDB(connectionString, providerName);
+            _db=new Hana.Model.NorthwindDB(connectionString, providerName);
             Init();            
          }
         void Init(){
             TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
             _dirtyColumns=new List<IColumn>();
             if(TestMode){
-                wp_post.SetTestRepo();
+                Comment.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_post>(_db);
+                _repo = new SubSonicRepository<Comment>(_db);
             }
             tbl=_repo.GetTable();
             SetIsNew(true);
@@ -2458,8 +1968,8 @@ namespace WP
 
         }
         
-        public wp_post(){
-             _db=new WP.wekeroadDB();
+        public Comment(){
+             _db=new Hana.Model.NorthwindDB();
             Init();            
         }
         
@@ -2478,40 +1988,40 @@ namespace WP
             }
         }
 
-        public wp_post(Expression<Func<wp_post, bool>> expression):this() {
+        public Comment(Expression<Func<Comment, bool>> expression):this() {
 
             SetIsLoaded(_repo.Load(this,expression));
         }
         
        
         
-        internal static IRepository<wp_post> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
+        internal static IRepository<Comment> GetRepo(string connectionString, string providerName){
+            Hana.Model.NorthwindDB db;
             if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
+                db=new Hana.Model.NorthwindDB();
             }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
+                db=new Hana.Model.NorthwindDB(connectionString, providerName);
             }
-            IRepository<wp_post> _repo;
+            IRepository<Comment> _repo;
             
             if(db.TestMode){
-                wp_post.SetTestRepo();
+                Comment.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_post>(db);
+                _repo = new SubSonicRepository<Comment>(db);
             }
             return _repo;        
         }       
         
-        internal static IRepository<wp_post> GetRepo(){
+        internal static IRepository<Comment> GetRepo(){
             return GetRepo("","");
         }
         
-        public static wp_post SingleOrDefault(Expression<Func<wp_post, bool>> expression) {
+        public static Comment SingleOrDefault(Expression<Func<Comment, bool>> expression) {
 
             var repo = GetRepo();
             var results=repo.Find(expression);
-            wp_post single=null;
+            Comment single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
                 single.OnLoaded();
@@ -2522,10 +2032,10 @@ namespace WP
             return single;
         }      
         
-        public static wp_post SingleOrDefault(Expression<Func<wp_post, bool>> expression,string connectionString, string providerName) {
+        public static Comment SingleOrDefault(Expression<Func<Comment, bool>> expression,string connectionString, string providerName) {
             var repo = GetRepo(connectionString,providerName);
             var results=repo.Find(expression);
-            wp_post single=null;
+            Comment single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
             }
@@ -2536,114 +2046,130 @@ namespace WP
         }
         
         
-        public static bool Exists(Expression<Func<wp_post, bool>> expression,string connectionString, string providerName) {
+        public static bool Exists(Expression<Func<Comment, bool>> expression,string connectionString, string providerName) {
            
             return All(connectionString,providerName).Any(expression);
         }        
-        public static bool Exists(Expression<Func<wp_post, bool>> expression) {
+        public static bool Exists(Expression<Func<Comment, bool>> expression) {
            
             return All().Any(expression);
         }        
 
-        public static IList<wp_post> Find(Expression<Func<wp_post, bool>> expression) {
+        public static IList<Comment> Find(Expression<Func<Comment, bool>> expression) {
             
             var repo = GetRepo();
             return repo.Find(expression).ToList();
         }
         
-        public static IList<wp_post> Find(Expression<Func<wp_post, bool>> expression,string connectionString, string providerName) {
+        public static IList<Comment> Find(Expression<Func<Comment, bool>> expression,string connectionString, string providerName) {
 
             var repo = GetRepo(connectionString,providerName);
             return repo.Find(expression).ToList();
 
         }
-        public static IQueryable<wp_post> All(string connectionString, string providerName) {
+        public static IQueryable<Comment> All(string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetAll();
         }
-        public static IQueryable<wp_post> All() {
+        public static IQueryable<Comment> All() {
             return GetRepo().GetAll();
         }
         
-        public static PagedList<wp_post> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Comment> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
         }
       
-        public static PagedList<wp_post> GetPaged(string sortBy, int pageIndex, int pageSize) {
+        public static PagedList<Comment> GetPaged(string sortBy, int pageIndex, int pageSize) {
             return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
         }
 
-        public static PagedList<wp_post> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Comment> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
             
         }
 
 
-        public static PagedList<wp_post> GetPaged(int pageIndex, int pageSize) {
+        public static PagedList<Comment> GetPaged(int pageIndex, int pageSize) {
             return GetRepo().GetPaged(pageIndex, pageSize);
             
         }
 
         public string KeyName()
         {
-            return "ID";
+            return "CommentID";
         }
 
         public object KeyValue()
         {
-            return this.ID;
+            return this.CommentID;
         }
         
         public void SetKeyValue(object value) {
             if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
+                var settable = value.ChangeTypeTo<int>();
                 this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
             }
         }
         
         public override string ToString(){
-            return this.post_content.ToString();
+            return this.Author.ToString();
         }
 
         public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_post)){
-                wp_post compare=(wp_post)obj;
+            if(obj.GetType()==typeof(Comment)){
+                Comment compare=(Comment)obj;
                 return compare.KeyValue()==this.KeyValue();
             }else{
                 return base.Equals(obj);
             }
         }
 
+        
+        public override int GetHashCode() {
+            return this.CommentID;
+        }
+        
         public string DescriptorValue()
         {
-            return this.post_content.ToString();
+            return this.Author.ToString();
         }
 
         public string DescriptorColumn() {
-            return "post_content";
+            return "Author";
         }
         public static string GetKeyColumn()
         {
-            return "ID";
+            return "CommentID";
         }        
         public static string GetDescriptorColumn()
         {
-            return "post_content";
+            return "Author";
         }
         
         #region ' Foreign Keys '
+        public IQueryable<Post> Posts
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Post.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.PostID == _PostID
+                       select items;
+            }
+        }
+
         #endregion
         
 
-        //Unsigned: True
-        ulong _ID;
-        public ulong ID
+        int _CommentID;
+        public int CommentID
         {
-            get { return _ID; }
+            get { return _CommentID; }
             set
             {
-                if(_ID!=value){
-                    _ID=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="ID");
+                if(_CommentID!=value){
+                    _CommentID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CommentID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2654,16 +2180,15 @@ namespace WP
             }
         }
 
-        //Unsigned: True
-        ulong _post_author;
-        public ulong post_author
+        int _PostID;
+        public int PostID
         {
-            get { return _post_author; }
+            get { return _PostID; }
             set
             {
-                if(_post_author!=value){
-                    _post_author=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_author");
+                if(_PostID!=value){
+                    _PostID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="PostID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2674,16 +2199,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        DateTime _post_date;
-        public DateTime post_date
+        string _Author;
+        public string Author
         {
-            get { return _post_date; }
+            get { return _Author; }
             set
             {
-                if(_post_date!=value){
-                    _post_date=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_date");
+                if(_Author!=value){
+                    _Author=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Author");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2694,16 +2218,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        DateTime _post_date_gmt;
-        public DateTime post_date_gmt
+        string _IP;
+        public string IP
         {
-            get { return _post_date_gmt; }
+            get { return _IP; }
             set
             {
-                if(_post_date_gmt!=value){
-                    _post_date_gmt=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_date_gmt");
+                if(_IP!=value){
+                    _IP=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="IP");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2714,16 +2237,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        string _post_content;
-        public string post_content
+        string _Email;
+        public string Email
         {
-            get { return _post_content; }
+            get { return _Email; }
             set
             {
-                if(_post_content!=value){
-                    _post_content=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_content");
+                if(_Email!=value){
+                    _Email=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Email");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2734,16 +2256,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        string _post_title;
-        public string post_title
+        string _URL;
+        public string URL
         {
-            get { return _post_title; }
+            get { return _URL; }
             set
             {
-                if(_post_title!=value){
-                    _post_title=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_title");
+                if(_URL!=value){
+                    _URL=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="URL");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2754,16 +2275,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        int _post_category;
-        public int post_category
+        DateTime _CreatedOn;
+        public DateTime CreatedOn
         {
-            get { return _post_category; }
+            get { return _CreatedOn; }
             set
             {
-                if(_post_category!=value){
-                    _post_category=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_category");
+                if(_CreatedOn!=value){
+                    _CreatedOn=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CreatedOn");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2774,16 +2294,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        string _post_excerpt;
-        public string post_excerpt
+        string _Body;
+        public string Body
         {
-            get { return _post_excerpt; }
+            get { return _Body; }
             set
             {
-                if(_post_excerpt!=value){
-                    _post_excerpt=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_excerpt");
+                if(_Body!=value){
+                    _Body=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Body");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -2794,316 +2313,15 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        string _post_status;
-        public string post_status
+        int _ParentID;
+        public int ParentID
         {
-            get { return _post_status; }
+            get { return _ParentID; }
             set
             {
-                if(_post_status!=value){
-                    _post_status=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_status");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _comment_status;
-        public string comment_status
-        {
-            get { return _comment_status; }
-            set
-            {
-                if(_comment_status!=value){
-                    _comment_status=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_status");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _ping_status;
-        public string ping_status
-        {
-            get { return _ping_status; }
-            set
-            {
-                if(_ping_status!=value){
-                    _ping_status=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="ping_status");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _post_password;
-        public string post_password
-        {
-            get { return _post_password; }
-            set
-            {
-                if(_post_password!=value){
-                    _post_password=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_password");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _post_name;
-        public string post_name
-        {
-            get { return _post_name; }
-            set
-            {
-                if(_post_name!=value){
-                    _post_name=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_name");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _to_ping;
-        public string to_ping
-        {
-            get { return _to_ping; }
-            set
-            {
-                if(_to_ping!=value){
-                    _to_ping=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="to_ping");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _pinged;
-        public string pinged
-        {
-            get { return _pinged; }
-            set
-            {
-                if(_pinged!=value){
-                    _pinged=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="pinged");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        DateTime _post_modified;
-        public DateTime post_modified
-        {
-            get { return _post_modified; }
-            set
-            {
-                if(_post_modified!=value){
-                    _post_modified=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_modified");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        DateTime _post_modified_gmt;
-        public DateTime post_modified_gmt
-        {
-            get { return _post_modified_gmt; }
-            set
-            {
-                if(_post_modified_gmt!=value){
-                    _post_modified_gmt=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_modified_gmt");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _post_content_filtered;
-        public string post_content_filtered
-        {
-            get { return _post_content_filtered; }
-            set
-            {
-                if(_post_content_filtered!=value){
-                    _post_content_filtered=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_content_filtered");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: True
-        ulong _post_parent;
-        public ulong post_parent
-        {
-            get { return _post_parent; }
-            set
-            {
-                if(_post_parent!=value){
-                    _post_parent=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_parent");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _guid;
-        public string guid
-        {
-            get { return _guid; }
-            set
-            {
-                if(_guid!=value){
-                    _guid=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="guid");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        int _menu_order;
-        public int menu_order
-        {
-            get { return _menu_order; }
-            set
-            {
-                if(_menu_order!=value){
-                    _menu_order=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="menu_order");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _post_type;
-        public string post_type
-        {
-            get { return _post_type; }
-            set
-            {
-                if(_post_type!=value){
-                    _post_type=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_type");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _post_mime_type;
-        public string post_mime_type
-        {
-            get { return _post_mime_type; }
-            set
-            {
-                if(_post_mime_type!=value){
-                    _post_mime_type=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="post_mime_type");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        long _comment_count;
-        public long comment_count
-        {
-            get { return _comment_count; }
-            set
-            {
-                if(_comment_count!=value){
-                    _comment_count=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="comment_count");
+                if(_ParentID!=value){
+                    _ParentID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="ParentID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -3146,8 +2364,10 @@ namespace WP
         public void Update(IDataProvider provider){
         
             
-            if(this._dirtyColumns.Count>0)
+            if(this._dirtyColumns.Count>0){
                 _repo.Update(this,provider);
+                _dirtyColumns.Clear();    
+            }
             OnSaved();
        }
  
@@ -3159,6 +2379,8 @@ namespace WP
        
         public void Add(IDataProvider provider){
 
+            
+            this.CreatedOn=DateTime.Now;
             
             var key=KeyValue();
             if(key==null){
@@ -3203,7 +2425,7 @@ namespace WP
         }
 
 
-        public static void Delete(Expression<Func<wp_post, bool>> expression) {
+        public static void Delete(Expression<Func<Comment, bool>> expression) {
             var repo = GetRepo();
             
        
@@ -3241,35 +2463,35 @@ namespace WP
     
     
     /// <summary>
-    /// A class which represents the wp_term_relationships table in the wekeroad Database.
+    /// A class which represents the Posts table in the Northwind Database.
     /// </summary>
-    public partial class wp_term_relationship: IActiveRecord
+    public partial class Post: IActiveRecord
     {
     
         #region Built-in testing
-        static TestRepository<wp_term_relationship> _testRepo;
+        static TestRepository<Post> _testRepo;
         
 
         
         static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_term_relationship>(new WP.wekeroadDB());
+            _testRepo = _testRepo ?? new TestRepository<Post>(new Hana.Model.NorthwindDB());
         }
         public static void ResetTestRepo(){
             _testRepo = null;
             SetTestRepo();
         }
-        public static void Setup(List<wp_term_relationship> testlist){
+        public static void Setup(List<Post> testlist){
             SetTestRepo();
             _testRepo._items = testlist;
         }
-        public static void Setup(wp_term_relationship item) {
+        public static void Setup(Post item) {
             SetTestRepo();
             _testRepo._items.Add(item);
         }
         public static void Setup(int testItems) {
             SetTestRepo();
             for(int i=0;i<testItems;i++){
-                wp_term_relationship item=new wp_term_relationship();
+                Post item=new Post();
                 _testRepo._items.Add(item);
             }
         }
@@ -3279,7 +2501,7 @@ namespace WP
 
         #endregion
 
-        IRepository<wp_term_relationship> _repo;
+        IRepository<Post> _repo;
         ITable tbl;
         bool _isNew;
         public bool IsNew(){
@@ -3309,20 +2531,20 @@ namespace WP
             return _dirtyColumns;
         }
 
-        WP.wekeroadDB _db;
-        public wp_term_relationship(string connectionString, string providerName) {
+        Hana.Model.NorthwindDB _db;
+        public Post(string connectionString, string providerName) {
 
-            _db=new WP.wekeroadDB(connectionString, providerName);
+            _db=new Hana.Model.NorthwindDB(connectionString, providerName);
             Init();            
          }
         void Init(){
             TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
             _dirtyColumns=new List<IColumn>();
             if(TestMode){
-                wp_term_relationship.SetTestRepo();
+                Post.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_term_relationship>(_db);
+                _repo = new SubSonicRepository<Post>(_db);
             }
             tbl=_repo.GetTable();
             SetIsNew(true);
@@ -3330,8 +2552,8 @@ namespace WP
 
         }
         
-        public wp_term_relationship(){
-             _db=new WP.wekeroadDB();
+        public Post(){
+             _db=new Hana.Model.NorthwindDB();
             Init();            
         }
         
@@ -3350,40 +2572,40 @@ namespace WP
             }
         }
 
-        public wp_term_relationship(Expression<Func<wp_term_relationship, bool>> expression):this() {
+        public Post(Expression<Func<Post, bool>> expression):this() {
 
             SetIsLoaded(_repo.Load(this,expression));
         }
         
        
         
-        internal static IRepository<wp_term_relationship> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
+        internal static IRepository<Post> GetRepo(string connectionString, string providerName){
+            Hana.Model.NorthwindDB db;
             if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
+                db=new Hana.Model.NorthwindDB();
             }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
+                db=new Hana.Model.NorthwindDB(connectionString, providerName);
             }
-            IRepository<wp_term_relationship> _repo;
+            IRepository<Post> _repo;
             
             if(db.TestMode){
-                wp_term_relationship.SetTestRepo();
+                Post.SetTestRepo();
                 _repo=_testRepo;
             }else{
-                _repo = new SubSonicRepository<wp_term_relationship>(db);
+                _repo = new SubSonicRepository<Post>(db);
             }
             return _repo;        
         }       
         
-        internal static IRepository<wp_term_relationship> GetRepo(){
+        internal static IRepository<Post> GetRepo(){
             return GetRepo("","");
         }
         
-        public static wp_term_relationship SingleOrDefault(Expression<Func<wp_term_relationship, bool>> expression) {
+        public static Post SingleOrDefault(Expression<Func<Post, bool>> expression) {
 
             var repo = GetRepo();
             var results=repo.Find(expression);
-            wp_term_relationship single=null;
+            Post single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
                 single.OnLoaded();
@@ -3394,10 +2616,10 @@ namespace WP
             return single;
         }      
         
-        public static wp_term_relationship SingleOrDefault(Expression<Func<wp_term_relationship, bool>> expression,string connectionString, string providerName) {
+        public static Post SingleOrDefault(Expression<Func<Post, bool>> expression,string connectionString, string providerName) {
             var repo = GetRepo(connectionString,providerName);
             var results=repo.Find(expression);
-            wp_term_relationship single=null;
+            Post single=null;
             if(results.Count() > 0){
                 single=results.ToList()[0];
             }
@@ -3408,114 +2630,154 @@ namespace WP
         }
         
         
-        public static bool Exists(Expression<Func<wp_term_relationship, bool>> expression,string connectionString, string providerName) {
+        public static bool Exists(Expression<Func<Post, bool>> expression,string connectionString, string providerName) {
            
             return All(connectionString,providerName).Any(expression);
         }        
-        public static bool Exists(Expression<Func<wp_term_relationship, bool>> expression) {
+        public static bool Exists(Expression<Func<Post, bool>> expression) {
            
             return All().Any(expression);
         }        
 
-        public static IList<wp_term_relationship> Find(Expression<Func<wp_term_relationship, bool>> expression) {
+        public static IList<Post> Find(Expression<Func<Post, bool>> expression) {
             
             var repo = GetRepo();
             return repo.Find(expression).ToList();
         }
         
-        public static IList<wp_term_relationship> Find(Expression<Func<wp_term_relationship, bool>> expression,string connectionString, string providerName) {
+        public static IList<Post> Find(Expression<Func<Post, bool>> expression,string connectionString, string providerName) {
 
             var repo = GetRepo(connectionString,providerName);
             return repo.Find(expression).ToList();
 
         }
-        public static IQueryable<wp_term_relationship> All(string connectionString, string providerName) {
+        public static IQueryable<Post> All(string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetAll();
         }
-        public static IQueryable<wp_term_relationship> All() {
+        public static IQueryable<Post> All() {
             return GetRepo().GetAll();
         }
         
-        public static PagedList<wp_term_relationship> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Post> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
         }
       
-        public static PagedList<wp_term_relationship> GetPaged(string sortBy, int pageIndex, int pageSize) {
+        public static PagedList<Post> GetPaged(string sortBy, int pageIndex, int pageSize) {
             return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
         }
 
-        public static PagedList<wp_term_relationship> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
+        public static PagedList<Post> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
             return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
             
         }
 
 
-        public static PagedList<wp_term_relationship> GetPaged(int pageIndex, int pageSize) {
+        public static PagedList<Post> GetPaged(int pageIndex, int pageSize) {
             return GetRepo().GetPaged(pageIndex, pageSize);
             
         }
 
         public string KeyName()
         {
-            return "object_id";
+            return "PostID";
         }
 
         public object KeyValue()
         {
-            return this.object_id;
+            return this.PostID;
         }
         
         public void SetKeyValue(object value) {
             if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
+                var settable = value.ChangeTypeTo<int>();
                 this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
             }
         }
         
         public override string ToString(){
-            return this.term_taxonomy_id.ToString();
+            return this.Author.ToString();
         }
 
         public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_term_relationship)){
-                wp_term_relationship compare=(wp_term_relationship)obj;
+            if(obj.GetType()==typeof(Post)){
+                Post compare=(Post)obj;
                 return compare.KeyValue()==this.KeyValue();
             }else{
                 return base.Equals(obj);
             }
         }
 
+        
+        public override int GetHashCode() {
+            return this.PostID;
+        }
+        
         public string DescriptorValue()
         {
-            return this.term_taxonomy_id.ToString();
+            return this.Author.ToString();
         }
 
         public string DescriptorColumn() {
-            return "term_taxonomy_id";
+            return "Author";
         }
         public static string GetKeyColumn()
         {
-            return "object_id";
+            return "PostID";
         }        
         public static string GetDescriptorColumn()
         {
-            return "term_taxonomy_id";
+            return "Author";
         }
         
         #region ' Foreign Keys '
+        public IQueryable<Categories_Post> Categories_Posts
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Categories_Post.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.PostID == _PostID
+                       select items;
+            }
+        }
+
+        public IQueryable<Comment> Comments
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Comment.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.PostID == _PostID
+                       select items;
+            }
+        }
+
+        public IQueryable<Tags_Post> Tags_Posts
+        {
+            get
+            {
+                
+                  var repo=Hana.Model.Tags_Post.GetRepo();
+                  return from items in repo.GetAll()
+                       where items.PostID == _PostID
+                       select items;
+            }
+        }
+
         #endregion
         
 
-        //Unsigned: True
-        ulong _object_id;
-        public ulong object_id
+        int _PostID;
+        public int PostID
         {
-            get { return _object_id; }
+            get { return _PostID; }
             set
             {
-                if(_object_id!=value){
-                    _object_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="object_id");
+                if(_PostID!=value){
+                    _PostID=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="PostID");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -3526,16 +2788,15 @@ namespace WP
             }
         }
 
-        //Unsigned: True
-        ulong _term_taxonomy_id;
-        public ulong term_taxonomy_id
+        string _Author;
+        public string Author
         {
-            get { return _term_taxonomy_id; }
+            get { return _Author; }
             set
             {
-                if(_term_taxonomy_id!=value){
-                    _term_taxonomy_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="term_taxonomy_id");
+                if(_Author!=value){
+                    _Author=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Author");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -3546,16 +2807,186 @@ namespace WP
             }
         }
 
-        //Unsigned: False
-        int _term_order;
-        public int term_order
+        DateTime _PublishedOn;
+        public DateTime PublishedOn
         {
-            get { return _term_order; }
+            get { return _PublishedOn; }
             set
             {
-                if(_term_order!=value){
-                    _term_order=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="term_order");
+                if(_PublishedOn!=value){
+                    _PublishedOn=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="PublishedOn");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        DateTime _CreatedOn;
+        public DateTime CreatedOn
+        {
+            get { return _CreatedOn; }
+            set
+            {
+                if(_CreatedOn!=value){
+                    _CreatedOn=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CreatedOn");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        DateTime _ModifiedOn;
+        public DateTime ModifiedOn
+        {
+            get { return _ModifiedOn; }
+            set
+            {
+                if(_ModifiedOn!=value){
+                    _ModifiedOn=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="ModifiedOn");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        string _Title;
+        public string Title
+        {
+            get { return _Title; }
+            set
+            {
+                if(_Title!=value){
+                    _Title=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Title");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        string _Slug;
+        public string Slug
+        {
+            get { return _Slug; }
+            set
+            {
+                if(_Slug!=value){
+                    _Slug=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Slug");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        string _Body;
+        public string Body
+        {
+            get { return _Body; }
+            set
+            {
+                if(_Body!=value){
+                    _Body=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Body");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        string _Tags;
+        public string Tags
+        {
+            get { return _Tags; }
+            set
+            {
+                if(_Tags!=value){
+                    _Tags=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Tags");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        string _Excerpt;
+        public string Excerpt
+        {
+            get { return _Excerpt; }
+            set
+            {
+                if(_Excerpt!=value){
+                    _Excerpt=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Excerpt");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        int _CommentCount;
+        public int CommentCount
+        {
+            get { return _CommentCount; }
+            set
+            {
+                if(_CommentCount!=value){
+                    _CommentCount=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CommentCount");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        bool _IsPublished;
+        public bool IsPublished
+        {
+            get { return _IsPublished; }
+            set
+            {
+                if(_IsPublished!=value){
+                    _IsPublished=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="IsPublished");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);
@@ -3569,6 +3000,9 @@ namespace WP
 
 
         public DbCommand GetUpdateCommand() {
+            if (!_dirtyColumns.Any(x => x.Name.ToLower() == "modifiedon")) {
+               this.ModifiedOn=DateTime.Now;
+            }            
             if(TestMode)
                 return _db.DataProvider.CreateCommand();
             else
@@ -3597,9 +3031,12 @@ namespace WP
         
         public void Update(IDataProvider provider){
         
+            this.ModifiedOn=DateTime.Now;
             
-            if(this._dirtyColumns.Count>0)
+            if(this._dirtyColumns.Count>0){
                 _repo.Update(this,provider);
+                _dirtyColumns.Clear();    
+            }
             OnSaved();
        }
  
@@ -3611,6 +3048,9 @@ namespace WP
        
         public void Add(IDataProvider provider){
 
+            
+            this.CreatedOn=DateTime.Now;
+            this.ModifiedOn=DateTime.Now;
             
             var key=KeyValue();
             if(key==null){
@@ -3655,2055 +3095,7 @@ namespace WP
         }
 
 
-        public static void Delete(Expression<Func<wp_term_relationship, bool>> expression) {
-            var repo = GetRepo();
-            
-       
-            
-            repo.DeleteMany(expression);
-            
-        }
-
-        
-
-        public void Load(IDataReader rdr) {
-            Load(rdr, true);
-        }
-        public void Load(IDataReader rdr, bool closeReader) {
-            if (rdr.Read()) {
-
-                try {
-                    rdr.Load(this);
-                    SetIsNew(false);
-                    SetIsLoaded(true);
-                } catch {
-                    SetIsLoaded(false);
-                    throw;
-                }
-            }else{
-                SetIsLoaded(false);
-            }
-
-            if (closeReader)
-                rdr.Dispose();
-        }
-        
-
-    } 
-    
-    
-    /// <summary>
-    /// A class which represents the wp_term_taxonomy table in the wekeroad Database.
-    /// </summary>
-    public partial class wp_term_taxonomy: IActiveRecord
-    {
-    
-        #region Built-in testing
-        static TestRepository<wp_term_taxonomy> _testRepo;
-        
-
-        
-        static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_term_taxonomy>(new WP.wekeroadDB());
-        }
-        public static void ResetTestRepo(){
-            _testRepo = null;
-            SetTestRepo();
-        }
-        public static void Setup(List<wp_term_taxonomy> testlist){
-            SetTestRepo();
-            _testRepo._items = testlist;
-        }
-        public static void Setup(wp_term_taxonomy item) {
-            SetTestRepo();
-            _testRepo._items.Add(item);
-        }
-        public static void Setup(int testItems) {
-            SetTestRepo();
-            for(int i=0;i<testItems;i++){
-                wp_term_taxonomy item=new wp_term_taxonomy();
-                _testRepo._items.Add(item);
-            }
-        }
-        
-        public bool TestMode = false;
-
-
-        #endregion
-
-        IRepository<wp_term_taxonomy> _repo;
-        ITable tbl;
-        bool _isNew;
-        public bool IsNew(){
-            return _isNew;
-        }
-        
-        public void SetIsLoaded(bool isLoaded){
-            _isLoaded=isLoaded;
-            if(isLoaded)
-                OnLoaded();
-        }
-        
-        public void SetIsNew(bool isNew){
-            _isNew=isNew;
-        }
-        bool _isLoaded;
-        public bool IsLoaded(){
-            return _isLoaded;
-        }
-                
-        List<IColumn> _dirtyColumns;
-        public bool IsDirty(){
-            return _dirtyColumns.Count>0;
-        }
-        
-        public List<IColumn> GetDirtyColumns (){
-            return _dirtyColumns;
-        }
-
-        WP.wekeroadDB _db;
-        public wp_term_taxonomy(string connectionString, string providerName) {
-
-            _db=new WP.wekeroadDB(connectionString, providerName);
-            Init();            
-         }
-        void Init(){
-            TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
-            _dirtyColumns=new List<IColumn>();
-            if(TestMode){
-                wp_term_taxonomy.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_term_taxonomy>(_db);
-            }
-            tbl=_repo.GetTable();
-            SetIsNew(true);
-            OnCreated();       
-
-        }
-        
-        public wp_term_taxonomy(){
-             _db=new WP.wekeroadDB();
-            Init();            
-        }
-        
-       
-        partial void OnCreated();
-            
-        partial void OnLoaded();
-        
-        partial void OnSaved();
-        
-        partial void OnChanged();
-        
-        public IList<IColumn> Columns{
-            get{
-                return tbl.Columns;
-            }
-        }
-
-        public wp_term_taxonomy(Expression<Func<wp_term_taxonomy, bool>> expression):this() {
-
-            SetIsLoaded(_repo.Load(this,expression));
-        }
-        
-       
-        
-        internal static IRepository<wp_term_taxonomy> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
-            if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
-            }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
-            }
-            IRepository<wp_term_taxonomy> _repo;
-            
-            if(db.TestMode){
-                wp_term_taxonomy.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_term_taxonomy>(db);
-            }
-            return _repo;        
-        }       
-        
-        internal static IRepository<wp_term_taxonomy> GetRepo(){
-            return GetRepo("","");
-        }
-        
-        public static wp_term_taxonomy SingleOrDefault(Expression<Func<wp_term_taxonomy, bool>> expression) {
-
-            var repo = GetRepo();
-            var results=repo.Find(expression);
-            wp_term_taxonomy single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-                single.OnLoaded();
-                single.SetIsLoaded(true);
-                single.SetIsNew(false);
-            }
-
-            return single;
-        }      
-        
-        public static wp_term_taxonomy SingleOrDefault(Expression<Func<wp_term_taxonomy, bool>> expression,string connectionString, string providerName) {
-            var repo = GetRepo(connectionString,providerName);
-            var results=repo.Find(expression);
-            wp_term_taxonomy single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-            }
-
-            return single;
-
-
-        }
-        
-        
-        public static bool Exists(Expression<Func<wp_term_taxonomy, bool>> expression,string connectionString, string providerName) {
-           
-            return All(connectionString,providerName).Any(expression);
-        }        
-        public static bool Exists(Expression<Func<wp_term_taxonomy, bool>> expression) {
-           
-            return All().Any(expression);
-        }        
-
-        public static IList<wp_term_taxonomy> Find(Expression<Func<wp_term_taxonomy, bool>> expression) {
-            
-            var repo = GetRepo();
-            return repo.Find(expression).ToList();
-        }
-        
-        public static IList<wp_term_taxonomy> Find(Expression<Func<wp_term_taxonomy, bool>> expression,string connectionString, string providerName) {
-
-            var repo = GetRepo(connectionString,providerName);
-            return repo.Find(expression).ToList();
-
-        }
-        public static IQueryable<wp_term_taxonomy> All(string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetAll();
-        }
-        public static IQueryable<wp_term_taxonomy> All() {
-            return GetRepo().GetAll();
-        }
-        
-        public static PagedList<wp_term_taxonomy> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
-        }
-      
-        public static PagedList<wp_term_taxonomy> GetPaged(string sortBy, int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
-        }
-
-        public static PagedList<wp_term_taxonomy> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
-            
-        }
-
-
-        public static PagedList<wp_term_taxonomy> GetPaged(int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(pageIndex, pageSize);
-            
-        }
-
-        public string KeyName()
-        {
-            return "term_taxonomy_id";
-        }
-
-        public object KeyValue()
-        {
-            return this.term_taxonomy_id;
-        }
-        
-        public void SetKeyValue(object value) {
-            if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
-                this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
-            }
-        }
-        
-        public override string ToString(){
-            return this.taxonomy.ToString();
-        }
-
-        public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_term_taxonomy)){
-                wp_term_taxonomy compare=(wp_term_taxonomy)obj;
-                return compare.KeyValue()==this.KeyValue();
-            }else{
-                return base.Equals(obj);
-            }
-        }
-
-        public string DescriptorValue()
-        {
-            return this.taxonomy.ToString();
-        }
-
-        public string DescriptorColumn() {
-            return "taxonomy";
-        }
-        public static string GetKeyColumn()
-        {
-            return "term_taxonomy_id";
-        }        
-        public static string GetDescriptorColumn()
-        {
-            return "taxonomy";
-        }
-        
-        #region ' Foreign Keys '
-        #endregion
-        
-
-        //Unsigned: True
-        ulong _term_taxonomy_id;
-        public ulong term_taxonomy_id
-        {
-            get { return _term_taxonomy_id; }
-            set
-            {
-                if(_term_taxonomy_id!=value){
-                    _term_taxonomy_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="term_taxonomy_id");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: True
-        ulong _term_id;
-        public ulong term_id
-        {
-            get { return _term_id; }
-            set
-            {
-                if(_term_id!=value){
-                    _term_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="term_id");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _taxonomy;
-        public string taxonomy
-        {
-            get { return _taxonomy; }
-            set
-            {
-                if(_taxonomy!=value){
-                    _taxonomy=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="taxonomy");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _description;
-        public string description
-        {
-            get { return _description; }
-            set
-            {
-                if(_description!=value){
-                    _description=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="description");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: True
-        ulong _parent;
-        public ulong parent
-        {
-            get { return _parent; }
-            set
-            {
-                if(_parent!=value){
-                    _parent=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="parent");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        long _count;
-        public long count
-        {
-            get { return _count; }
-            set
-            {
-                if(_count!=value){
-                    _count=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="count");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-
-
-        public DbCommand GetUpdateCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToUpdateQuery(_db.Provider).GetCommand().ToDbCommand();
-            
-        }
-        public DbCommand GetInsertCommand() {
- 
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToInsertQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-        
-        public DbCommand GetDeleteCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToDeleteQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-       
-        
-        public void Update(){
-            Update(_db.DataProvider);
-        }
-        
-        public void Update(IDataProvider provider){
-        
-            
-            if(this._dirtyColumns.Count>0)
-                _repo.Update(this,provider);
-            OnSaved();
-       }
- 
-        public void Add(){
-            Add(_db.DataProvider);
-        }
-        
-        
-       
-        public void Add(IDataProvider provider){
-
-            
-            var key=KeyValue();
-            if(key==null){
-                var newKey=_repo.Add(this,provider);
-                this.SetKeyValue(newKey);
-            }else{
-                _repo.Add(this,provider);
-            }
-            SetIsNew(false);
-            OnSaved();
-        }
-        
-                
-        
-        public void Save() {
-            Save(_db.DataProvider);
-        }      
-        public void Save(IDataProvider provider) {
-            
-           
-            if (_isNew) {
-                Add(provider);
-                
-            } else {
-                Update(provider);
-            }
-            
-        }
-
-        
-
-        public void Delete(IDataProvider provider) {
-                   
-                 
-            _repo.Delete(KeyValue());
-            
-                    }
-
-
-        public void Delete() {
-            Delete(_db.DataProvider);
-        }
-
-
-        public static void Delete(Expression<Func<wp_term_taxonomy, bool>> expression) {
-            var repo = GetRepo();
-            
-       
-            
-            repo.DeleteMany(expression);
-            
-        }
-
-        
-
-        public void Load(IDataReader rdr) {
-            Load(rdr, true);
-        }
-        public void Load(IDataReader rdr, bool closeReader) {
-            if (rdr.Read()) {
-
-                try {
-                    rdr.Load(this);
-                    SetIsNew(false);
-                    SetIsLoaded(true);
-                } catch {
-                    SetIsLoaded(false);
-                    throw;
-                }
-            }else{
-                SetIsLoaded(false);
-            }
-
-            if (closeReader)
-                rdr.Dispose();
-        }
-        
-
-    } 
-    
-    
-    /// <summary>
-    /// A class which represents the wp_terms table in the wekeroad Database.
-    /// </summary>
-    public partial class wp_term: IActiveRecord
-    {
-    
-        #region Built-in testing
-        static TestRepository<wp_term> _testRepo;
-        
-
-        
-        static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_term>(new WP.wekeroadDB());
-        }
-        public static void ResetTestRepo(){
-            _testRepo = null;
-            SetTestRepo();
-        }
-        public static void Setup(List<wp_term> testlist){
-            SetTestRepo();
-            _testRepo._items = testlist;
-        }
-        public static void Setup(wp_term item) {
-            SetTestRepo();
-            _testRepo._items.Add(item);
-        }
-        public static void Setup(int testItems) {
-            SetTestRepo();
-            for(int i=0;i<testItems;i++){
-                wp_term item=new wp_term();
-                _testRepo._items.Add(item);
-            }
-        }
-        
-        public bool TestMode = false;
-
-
-        #endregion
-
-        IRepository<wp_term> _repo;
-        ITable tbl;
-        bool _isNew;
-        public bool IsNew(){
-            return _isNew;
-        }
-        
-        public void SetIsLoaded(bool isLoaded){
-            _isLoaded=isLoaded;
-            if(isLoaded)
-                OnLoaded();
-        }
-        
-        public void SetIsNew(bool isNew){
-            _isNew=isNew;
-        }
-        bool _isLoaded;
-        public bool IsLoaded(){
-            return _isLoaded;
-        }
-                
-        List<IColumn> _dirtyColumns;
-        public bool IsDirty(){
-            return _dirtyColumns.Count>0;
-        }
-        
-        public List<IColumn> GetDirtyColumns (){
-            return _dirtyColumns;
-        }
-
-        WP.wekeroadDB _db;
-        public wp_term(string connectionString, string providerName) {
-
-            _db=new WP.wekeroadDB(connectionString, providerName);
-            Init();            
-         }
-        void Init(){
-            TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
-            _dirtyColumns=new List<IColumn>();
-            if(TestMode){
-                wp_term.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_term>(_db);
-            }
-            tbl=_repo.GetTable();
-            SetIsNew(true);
-            OnCreated();       
-
-        }
-        
-        public wp_term(){
-             _db=new WP.wekeroadDB();
-            Init();            
-        }
-        
-       
-        partial void OnCreated();
-            
-        partial void OnLoaded();
-        
-        partial void OnSaved();
-        
-        partial void OnChanged();
-        
-        public IList<IColumn> Columns{
-            get{
-                return tbl.Columns;
-            }
-        }
-
-        public wp_term(Expression<Func<wp_term, bool>> expression):this() {
-
-            SetIsLoaded(_repo.Load(this,expression));
-        }
-        
-       
-        
-        internal static IRepository<wp_term> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
-            if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
-            }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
-            }
-            IRepository<wp_term> _repo;
-            
-            if(db.TestMode){
-                wp_term.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_term>(db);
-            }
-            return _repo;        
-        }       
-        
-        internal static IRepository<wp_term> GetRepo(){
-            return GetRepo("","");
-        }
-        
-        public static wp_term SingleOrDefault(Expression<Func<wp_term, bool>> expression) {
-
-            var repo = GetRepo();
-            var results=repo.Find(expression);
-            wp_term single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-                single.OnLoaded();
-                single.SetIsLoaded(true);
-                single.SetIsNew(false);
-            }
-
-            return single;
-        }      
-        
-        public static wp_term SingleOrDefault(Expression<Func<wp_term, bool>> expression,string connectionString, string providerName) {
-            var repo = GetRepo(connectionString,providerName);
-            var results=repo.Find(expression);
-            wp_term single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-            }
-
-            return single;
-
-
-        }
-        
-        
-        public static bool Exists(Expression<Func<wp_term, bool>> expression,string connectionString, string providerName) {
-           
-            return All(connectionString,providerName).Any(expression);
-        }        
-        public static bool Exists(Expression<Func<wp_term, bool>> expression) {
-           
-            return All().Any(expression);
-        }        
-
-        public static IList<wp_term> Find(Expression<Func<wp_term, bool>> expression) {
-            
-            var repo = GetRepo();
-            return repo.Find(expression).ToList();
-        }
-        
-        public static IList<wp_term> Find(Expression<Func<wp_term, bool>> expression,string connectionString, string providerName) {
-
-            var repo = GetRepo(connectionString,providerName);
-            return repo.Find(expression).ToList();
-
-        }
-        public static IQueryable<wp_term> All(string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetAll();
-        }
-        public static IQueryable<wp_term> All() {
-            return GetRepo().GetAll();
-        }
-        
-        public static PagedList<wp_term> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
-        }
-      
-        public static PagedList<wp_term> GetPaged(string sortBy, int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
-        }
-
-        public static PagedList<wp_term> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
-            
-        }
-
-
-        public static PagedList<wp_term> GetPaged(int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(pageIndex, pageSize);
-            
-        }
-
-        public string KeyName()
-        {
-            return "term_id";
-        }
-
-        public object KeyValue()
-        {
-            return this.term_id;
-        }
-        
-        public void SetKeyValue(object value) {
-            if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
-                this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
-            }
-        }
-        
-        public override string ToString(){
-            return this.name.ToString();
-        }
-
-        public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_term)){
-                wp_term compare=(wp_term)obj;
-                return compare.KeyValue()==this.KeyValue();
-            }else{
-                return base.Equals(obj);
-            }
-        }
-
-        public string DescriptorValue()
-        {
-            return this.name.ToString();
-        }
-
-        public string DescriptorColumn() {
-            return "name";
-        }
-        public static string GetKeyColumn()
-        {
-            return "term_id";
-        }        
-        public static string GetDescriptorColumn()
-        {
-            return "name";
-        }
-        
-        #region ' Foreign Keys '
-        #endregion
-        
-
-        //Unsigned: True
-        ulong _term_id;
-        public ulong term_id
-        {
-            get { return _term_id; }
-            set
-            {
-                if(_term_id!=value){
-                    _term_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="term_id");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _name;
-        public string name
-        {
-            get { return _name; }
-            set
-            {
-                if(_name!=value){
-                    _name=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="name");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _slug;
-        public string slug
-        {
-            get { return _slug; }
-            set
-            {
-                if(_slug!=value){
-                    _slug=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="slug");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        long _term_group;
-        public long term_group
-        {
-            get { return _term_group; }
-            set
-            {
-                if(_term_group!=value){
-                    _term_group=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="term_group");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-
-
-        public DbCommand GetUpdateCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToUpdateQuery(_db.Provider).GetCommand().ToDbCommand();
-            
-        }
-        public DbCommand GetInsertCommand() {
- 
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToInsertQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-        
-        public DbCommand GetDeleteCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToDeleteQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-       
-        
-        public void Update(){
-            Update(_db.DataProvider);
-        }
-        
-        public void Update(IDataProvider provider){
-        
-            
-            if(this._dirtyColumns.Count>0)
-                _repo.Update(this,provider);
-            OnSaved();
-       }
- 
-        public void Add(){
-            Add(_db.DataProvider);
-        }
-        
-        
-       
-        public void Add(IDataProvider provider){
-
-            
-            var key=KeyValue();
-            if(key==null){
-                var newKey=_repo.Add(this,provider);
-                this.SetKeyValue(newKey);
-            }else{
-                _repo.Add(this,provider);
-            }
-            SetIsNew(false);
-            OnSaved();
-        }
-        
-                
-        
-        public void Save() {
-            Save(_db.DataProvider);
-        }      
-        public void Save(IDataProvider provider) {
-            
-           
-            if (_isNew) {
-                Add(provider);
-                
-            } else {
-                Update(provider);
-            }
-            
-        }
-
-        
-
-        public void Delete(IDataProvider provider) {
-                   
-                 
-            _repo.Delete(KeyValue());
-            
-                    }
-
-
-        public void Delete() {
-            Delete(_db.DataProvider);
-        }
-
-
-        public static void Delete(Expression<Func<wp_term, bool>> expression) {
-            var repo = GetRepo();
-            
-       
-            
-            repo.DeleteMany(expression);
-            
-        }
-
-        
-
-        public void Load(IDataReader rdr) {
-            Load(rdr, true);
-        }
-        public void Load(IDataReader rdr, bool closeReader) {
-            if (rdr.Read()) {
-
-                try {
-                    rdr.Load(this);
-                    SetIsNew(false);
-                    SetIsLoaded(true);
-                } catch {
-                    SetIsLoaded(false);
-                    throw;
-                }
-            }else{
-                SetIsLoaded(false);
-            }
-
-            if (closeReader)
-                rdr.Dispose();
-        }
-        
-
-    } 
-    
-    
-    /// <summary>
-    /// A class which represents the wp_usermeta table in the wekeroad Database.
-    /// </summary>
-    public partial class wp_usermetum: IActiveRecord
-    {
-    
-        #region Built-in testing
-        static TestRepository<wp_usermetum> _testRepo;
-        
-
-        
-        static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_usermetum>(new WP.wekeroadDB());
-        }
-        public static void ResetTestRepo(){
-            _testRepo = null;
-            SetTestRepo();
-        }
-        public static void Setup(List<wp_usermetum> testlist){
-            SetTestRepo();
-            _testRepo._items = testlist;
-        }
-        public static void Setup(wp_usermetum item) {
-            SetTestRepo();
-            _testRepo._items.Add(item);
-        }
-        public static void Setup(int testItems) {
-            SetTestRepo();
-            for(int i=0;i<testItems;i++){
-                wp_usermetum item=new wp_usermetum();
-                _testRepo._items.Add(item);
-            }
-        }
-        
-        public bool TestMode = false;
-
-
-        #endregion
-
-        IRepository<wp_usermetum> _repo;
-        ITable tbl;
-        bool _isNew;
-        public bool IsNew(){
-            return _isNew;
-        }
-        
-        public void SetIsLoaded(bool isLoaded){
-            _isLoaded=isLoaded;
-            if(isLoaded)
-                OnLoaded();
-        }
-        
-        public void SetIsNew(bool isNew){
-            _isNew=isNew;
-        }
-        bool _isLoaded;
-        public bool IsLoaded(){
-            return _isLoaded;
-        }
-                
-        List<IColumn> _dirtyColumns;
-        public bool IsDirty(){
-            return _dirtyColumns.Count>0;
-        }
-        
-        public List<IColumn> GetDirtyColumns (){
-            return _dirtyColumns;
-        }
-
-        WP.wekeroadDB _db;
-        public wp_usermetum(string connectionString, string providerName) {
-
-            _db=new WP.wekeroadDB(connectionString, providerName);
-            Init();            
-         }
-        void Init(){
-            TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
-            _dirtyColumns=new List<IColumn>();
-            if(TestMode){
-                wp_usermetum.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_usermetum>(_db);
-            }
-            tbl=_repo.GetTable();
-            SetIsNew(true);
-            OnCreated();       
-
-        }
-        
-        public wp_usermetum(){
-             _db=new WP.wekeroadDB();
-            Init();            
-        }
-        
-       
-        partial void OnCreated();
-            
-        partial void OnLoaded();
-        
-        partial void OnSaved();
-        
-        partial void OnChanged();
-        
-        public IList<IColumn> Columns{
-            get{
-                return tbl.Columns;
-            }
-        }
-
-        public wp_usermetum(Expression<Func<wp_usermetum, bool>> expression):this() {
-
-            SetIsLoaded(_repo.Load(this,expression));
-        }
-        
-       
-        
-        internal static IRepository<wp_usermetum> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
-            if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
-            }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
-            }
-            IRepository<wp_usermetum> _repo;
-            
-            if(db.TestMode){
-                wp_usermetum.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_usermetum>(db);
-            }
-            return _repo;        
-        }       
-        
-        internal static IRepository<wp_usermetum> GetRepo(){
-            return GetRepo("","");
-        }
-        
-        public static wp_usermetum SingleOrDefault(Expression<Func<wp_usermetum, bool>> expression) {
-
-            var repo = GetRepo();
-            var results=repo.Find(expression);
-            wp_usermetum single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-                single.OnLoaded();
-                single.SetIsLoaded(true);
-                single.SetIsNew(false);
-            }
-
-            return single;
-        }      
-        
-        public static wp_usermetum SingleOrDefault(Expression<Func<wp_usermetum, bool>> expression,string connectionString, string providerName) {
-            var repo = GetRepo(connectionString,providerName);
-            var results=repo.Find(expression);
-            wp_usermetum single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-            }
-
-            return single;
-
-
-        }
-        
-        
-        public static bool Exists(Expression<Func<wp_usermetum, bool>> expression,string connectionString, string providerName) {
-           
-            return All(connectionString,providerName).Any(expression);
-        }        
-        public static bool Exists(Expression<Func<wp_usermetum, bool>> expression) {
-           
-            return All().Any(expression);
-        }        
-
-        public static IList<wp_usermetum> Find(Expression<Func<wp_usermetum, bool>> expression) {
-            
-            var repo = GetRepo();
-            return repo.Find(expression).ToList();
-        }
-        
-        public static IList<wp_usermetum> Find(Expression<Func<wp_usermetum, bool>> expression,string connectionString, string providerName) {
-
-            var repo = GetRepo(connectionString,providerName);
-            return repo.Find(expression).ToList();
-
-        }
-        public static IQueryable<wp_usermetum> All(string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetAll();
-        }
-        public static IQueryable<wp_usermetum> All() {
-            return GetRepo().GetAll();
-        }
-        
-        public static PagedList<wp_usermetum> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
-        }
-      
-        public static PagedList<wp_usermetum> GetPaged(string sortBy, int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
-        }
-
-        public static PagedList<wp_usermetum> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
-            
-        }
-
-
-        public static PagedList<wp_usermetum> GetPaged(int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(pageIndex, pageSize);
-            
-        }
-
-        public string KeyName()
-        {
-            return "umeta_id";
-        }
-
-        public object KeyValue()
-        {
-            return this.umeta_id;
-        }
-        
-        public void SetKeyValue(object value) {
-            if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
-                this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
-            }
-        }
-        
-        public override string ToString(){
-            return this.meta_key.ToString();
-        }
-
-        public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_usermetum)){
-                wp_usermetum compare=(wp_usermetum)obj;
-                return compare.KeyValue()==this.KeyValue();
-            }else{
-                return base.Equals(obj);
-            }
-        }
-
-        public string DescriptorValue()
-        {
-            return this.meta_key.ToString();
-        }
-
-        public string DescriptorColumn() {
-            return "meta_key";
-        }
-        public static string GetKeyColumn()
-        {
-            return "umeta_id";
-        }        
-        public static string GetDescriptorColumn()
-        {
-            return "meta_key";
-        }
-        
-        #region ' Foreign Keys '
-        #endregion
-        
-
-        //Unsigned: True
-        ulong _umeta_id;
-        public ulong umeta_id
-        {
-            get { return _umeta_id; }
-            set
-            {
-                if(_umeta_id!=value){
-                    _umeta_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="umeta_id");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: True
-        ulong _user_id;
-        public ulong user_id
-        {
-            get { return _user_id; }
-            set
-            {
-                if(_user_id!=value){
-                    _user_id=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_id");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _meta_key;
-        public string meta_key
-        {
-            get { return _meta_key; }
-            set
-            {
-                if(_meta_key!=value){
-                    _meta_key=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="meta_key");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _meta_value;
-        public string meta_value
-        {
-            get { return _meta_value; }
-            set
-            {
-                if(_meta_value!=value){
-                    _meta_value=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="meta_value");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-
-
-        public DbCommand GetUpdateCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToUpdateQuery(_db.Provider).GetCommand().ToDbCommand();
-            
-        }
-        public DbCommand GetInsertCommand() {
- 
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToInsertQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-        
-        public DbCommand GetDeleteCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToDeleteQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-       
-        
-        public void Update(){
-            Update(_db.DataProvider);
-        }
-        
-        public void Update(IDataProvider provider){
-        
-            
-            if(this._dirtyColumns.Count>0)
-                _repo.Update(this,provider);
-            OnSaved();
-       }
- 
-        public void Add(){
-            Add(_db.DataProvider);
-        }
-        
-        
-       
-        public void Add(IDataProvider provider){
-
-            
-            var key=KeyValue();
-            if(key==null){
-                var newKey=_repo.Add(this,provider);
-                this.SetKeyValue(newKey);
-            }else{
-                _repo.Add(this,provider);
-            }
-            SetIsNew(false);
-            OnSaved();
-        }
-        
-                
-        
-        public void Save() {
-            Save(_db.DataProvider);
-        }      
-        public void Save(IDataProvider provider) {
-            
-           
-            if (_isNew) {
-                Add(provider);
-                
-            } else {
-                Update(provider);
-            }
-            
-        }
-
-        
-
-        public void Delete(IDataProvider provider) {
-                   
-                 
-            _repo.Delete(KeyValue());
-            
-                    }
-
-
-        public void Delete() {
-            Delete(_db.DataProvider);
-        }
-
-
-        public static void Delete(Expression<Func<wp_usermetum, bool>> expression) {
-            var repo = GetRepo();
-            
-       
-            
-            repo.DeleteMany(expression);
-            
-        }
-
-        
-
-        public void Load(IDataReader rdr) {
-            Load(rdr, true);
-        }
-        public void Load(IDataReader rdr, bool closeReader) {
-            if (rdr.Read()) {
-
-                try {
-                    rdr.Load(this);
-                    SetIsNew(false);
-                    SetIsLoaded(true);
-                } catch {
-                    SetIsLoaded(false);
-                    throw;
-                }
-            }else{
-                SetIsLoaded(false);
-            }
-
-            if (closeReader)
-                rdr.Dispose();
-        }
-        
-
-    } 
-    
-    
-    /// <summary>
-    /// A class which represents the wp_users table in the wekeroad Database.
-    /// </summary>
-    public partial class wp_user: IActiveRecord
-    {
-    
-        #region Built-in testing
-        static TestRepository<wp_user> _testRepo;
-        
-
-        
-        static void SetTestRepo(){
-            _testRepo = _testRepo ?? new TestRepository<wp_user>(new WP.wekeroadDB());
-        }
-        public static void ResetTestRepo(){
-            _testRepo = null;
-            SetTestRepo();
-        }
-        public static void Setup(List<wp_user> testlist){
-            SetTestRepo();
-            _testRepo._items = testlist;
-        }
-        public static void Setup(wp_user item) {
-            SetTestRepo();
-            _testRepo._items.Add(item);
-        }
-        public static void Setup(int testItems) {
-            SetTestRepo();
-            for(int i=0;i<testItems;i++){
-                wp_user item=new wp_user();
-                _testRepo._items.Add(item);
-            }
-        }
-        
-        public bool TestMode = false;
-
-
-        #endregion
-
-        IRepository<wp_user> _repo;
-        ITable tbl;
-        bool _isNew;
-        public bool IsNew(){
-            return _isNew;
-        }
-        
-        public void SetIsLoaded(bool isLoaded){
-            _isLoaded=isLoaded;
-            if(isLoaded)
-                OnLoaded();
-        }
-        
-        public void SetIsNew(bool isNew){
-            _isNew=isNew;
-        }
-        bool _isLoaded;
-        public bool IsLoaded(){
-            return _isLoaded;
-        }
-                
-        List<IColumn> _dirtyColumns;
-        public bool IsDirty(){
-            return _dirtyColumns.Count>0;
-        }
-        
-        public List<IColumn> GetDirtyColumns (){
-            return _dirtyColumns;
-        }
-
-        WP.wekeroadDB _db;
-        public wp_user(string connectionString, string providerName) {
-
-            _db=new WP.wekeroadDB(connectionString, providerName);
-            Init();            
-         }
-        void Init(){
-            TestMode=this._db.DataProvider.ConnectionString.Equals("test", StringComparison.InvariantCultureIgnoreCase);
-            _dirtyColumns=new List<IColumn>();
-            if(TestMode){
-                wp_user.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_user>(_db);
-            }
-            tbl=_repo.GetTable();
-            SetIsNew(true);
-            OnCreated();       
-
-        }
-        
-        public wp_user(){
-             _db=new WP.wekeroadDB();
-            Init();            
-        }
-        
-       
-        partial void OnCreated();
-            
-        partial void OnLoaded();
-        
-        partial void OnSaved();
-        
-        partial void OnChanged();
-        
-        public IList<IColumn> Columns{
-            get{
-                return tbl.Columns;
-            }
-        }
-
-        public wp_user(Expression<Func<wp_user, bool>> expression):this() {
-
-            SetIsLoaded(_repo.Load(this,expression));
-        }
-        
-       
-        
-        internal static IRepository<wp_user> GetRepo(string connectionString, string providerName){
-            WP.wekeroadDB db;
-            if(String.IsNullOrEmpty(connectionString)){
-                db=new WP.wekeroadDB();
-            }else{
-                db=new WP.wekeroadDB(connectionString, providerName);
-            }
-            IRepository<wp_user> _repo;
-            
-            if(db.TestMode){
-                wp_user.SetTestRepo();
-                _repo=_testRepo;
-            }else{
-                _repo = new SubSonicRepository<wp_user>(db);
-            }
-            return _repo;        
-        }       
-        
-        internal static IRepository<wp_user> GetRepo(){
-            return GetRepo("","");
-        }
-        
-        public static wp_user SingleOrDefault(Expression<Func<wp_user, bool>> expression) {
-
-            var repo = GetRepo();
-            var results=repo.Find(expression);
-            wp_user single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-                single.OnLoaded();
-                single.SetIsLoaded(true);
-                single.SetIsNew(false);
-            }
-
-            return single;
-        }      
-        
-        public static wp_user SingleOrDefault(Expression<Func<wp_user, bool>> expression,string connectionString, string providerName) {
-            var repo = GetRepo(connectionString,providerName);
-            var results=repo.Find(expression);
-            wp_user single=null;
-            if(results.Count() > 0){
-                single=results.ToList()[0];
-            }
-
-            return single;
-
-
-        }
-        
-        
-        public static bool Exists(Expression<Func<wp_user, bool>> expression,string connectionString, string providerName) {
-           
-            return All(connectionString,providerName).Any(expression);
-        }        
-        public static bool Exists(Expression<Func<wp_user, bool>> expression) {
-           
-            return All().Any(expression);
-        }        
-
-        public static IList<wp_user> Find(Expression<Func<wp_user, bool>> expression) {
-            
-            var repo = GetRepo();
-            return repo.Find(expression).ToList();
-        }
-        
-        public static IList<wp_user> Find(Expression<Func<wp_user, bool>> expression,string connectionString, string providerName) {
-
-            var repo = GetRepo(connectionString,providerName);
-            return repo.Find(expression).ToList();
-
-        }
-        public static IQueryable<wp_user> All(string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetAll();
-        }
-        public static IQueryable<wp_user> All() {
-            return GetRepo().GetAll();
-        }
-        
-        public static PagedList<wp_user> GetPaged(string sortBy, int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(sortBy, pageIndex, pageSize);
-        }
-      
-        public static PagedList<wp_user> GetPaged(string sortBy, int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(sortBy, pageIndex, pageSize);
-        }
-
-        public static PagedList<wp_user> GetPaged(int pageIndex, int pageSize,string connectionString, string providerName) {
-            return GetRepo(connectionString,providerName).GetPaged(pageIndex, pageSize);
-            
-        }
-
-
-        public static PagedList<wp_user> GetPaged(int pageIndex, int pageSize) {
-            return GetRepo().GetPaged(pageIndex, pageSize);
-            
-        }
-
-        public string KeyName()
-        {
-            return "ID";
-        }
-
-        public object KeyValue()
-        {
-            return this.ID;
-        }
-        
-        public void SetKeyValue(object value) {
-            if (value != null && value!=DBNull.Value) {
-                var settable = value.ChangeTypeTo<ulong>();
-                this.GetType().GetProperty(this.KeyName()).SetValue(this, settable, null);
-            }
-        }
-        
-        public override string ToString(){
-            return this.user_login.ToString();
-        }
-
-        public override bool Equals(object obj){
-            if(obj.GetType()==typeof(wp_user)){
-                wp_user compare=(wp_user)obj;
-                return compare.KeyValue()==this.KeyValue();
-            }else{
-                return base.Equals(obj);
-            }
-        }
-
-        public string DescriptorValue()
-        {
-            return this.user_login.ToString();
-        }
-
-        public string DescriptorColumn() {
-            return "user_login";
-        }
-        public static string GetKeyColumn()
-        {
-            return "ID";
-        }        
-        public static string GetDescriptorColumn()
-        {
-            return "user_login";
-        }
-        
-        #region ' Foreign Keys '
-        #endregion
-        
-
-        //Unsigned: True
-        ulong _ID;
-        public ulong ID
-        {
-            get { return _ID; }
-            set
-            {
-                if(_ID!=value){
-                    _ID=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="ID");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _user_login;
-        public string user_login
-        {
-            get { return _user_login; }
-            set
-            {
-                if(_user_login!=value){
-                    _user_login=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_login");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _user_pass;
-        public string user_pass
-        {
-            get { return _user_pass; }
-            set
-            {
-                if(_user_pass!=value){
-                    _user_pass=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_pass");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _user_nicename;
-        public string user_nicename
-        {
-            get { return _user_nicename; }
-            set
-            {
-                if(_user_nicename!=value){
-                    _user_nicename=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_nicename");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _user_email;
-        public string user_email
-        {
-            get { return _user_email; }
-            set
-            {
-                if(_user_email!=value){
-                    _user_email=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_email");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _user_url;
-        public string user_url
-        {
-            get { return _user_url; }
-            set
-            {
-                if(_user_url!=value){
-                    _user_url=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_url");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        DateTime _user_registered;
-        public DateTime user_registered
-        {
-            get { return _user_registered; }
-            set
-            {
-                if(_user_registered!=value){
-                    _user_registered=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_registered");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _user_activation_key;
-        public string user_activation_key
-        {
-            get { return _user_activation_key; }
-            set
-            {
-                if(_user_activation_key!=value){
-                    _user_activation_key=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_activation_key");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        int _user_status;
-        public int user_status
-        {
-            get { return _user_status; }
-            set
-            {
-                if(_user_status!=value){
-                    _user_status=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="user_status");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-        //Unsigned: False
-        string _display_name;
-        public string display_name
-        {
-            get { return _display_name; }
-            set
-            {
-                if(_display_name!=value){
-                    _display_name=value;
-                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="display_name");
-                    if(col!=null){
-                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
-                            _dirtyColumns.Add(col);
-                        }
-                    }
-                    OnChanged();
-                }
-            }
-        }
-
-
-
-        public DbCommand GetUpdateCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToUpdateQuery(_db.Provider).GetCommand().ToDbCommand();
-            
-        }
-        public DbCommand GetInsertCommand() {
- 
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToInsertQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-        
-        public DbCommand GetDeleteCommand() {
-            if(TestMode)
-                return _db.DataProvider.CreateCommand();
-            else
-                return this.ToDeleteQuery(_db.Provider).GetCommand().ToDbCommand();
-        }
-       
-        
-        public void Update(){
-            Update(_db.DataProvider);
-        }
-        
-        public void Update(IDataProvider provider){
-        
-            
-            if(this._dirtyColumns.Count>0)
-                _repo.Update(this,provider);
-            OnSaved();
-       }
- 
-        public void Add(){
-            Add(_db.DataProvider);
-        }
-        
-        
-       
-        public void Add(IDataProvider provider){
-
-            
-            var key=KeyValue();
-            if(key==null){
-                var newKey=_repo.Add(this,provider);
-                this.SetKeyValue(newKey);
-            }else{
-                _repo.Add(this,provider);
-            }
-            SetIsNew(false);
-            OnSaved();
-        }
-        
-                
-        
-        public void Save() {
-            Save(_db.DataProvider);
-        }      
-        public void Save(IDataProvider provider) {
-            
-           
-            if (_isNew) {
-                Add(provider);
-                
-            } else {
-                Update(provider);
-            }
-            
-        }
-
-        
-
-        public void Delete(IDataProvider provider) {
-                   
-                 
-            _repo.Delete(KeyValue());
-            
-                    }
-
-
-        public void Delete() {
-            Delete(_db.DataProvider);
-        }
-
-
-        public static void Delete(Expression<Func<wp_user, bool>> expression) {
+        public static void Delete(Expression<Func<Post, bool>> expression) {
             var repo = GetRepo();
             
        

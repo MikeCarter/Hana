@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.1.0.3, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="SubSonic.Core, Version=3.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\SubSonic.Core.dll</HintPath>
@@ -62,6 +74,13 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\APIBase.cs" />
+    <Compile Include="API\APIStructs.cs" />
+    <Compile Include="API\Authentication.cs" />
+    <Compile Include="API\IMetaWeblog.cs" />
+    <Compile Include="API\IWordPress.cs" />
+    <Compile Include="API\MetaWeblog.cs" />
+    <Compile Include="API\Wordpress.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -72,31 +91,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Model\Category.cs" />
-    <Compile Include="Model\Comment.cs" />
+    <Compile Include="Helpers\Gravatar.cs" />
+    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Model\Blog.cs" />
     <Compile Include="Model\Generated\ActiveRecord.cs">
+      <DependentUpon>ActiveRecord.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ActiveRecord.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Generated\Context.cs">
+      <DependentUpon>Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Generated\StoredProcedures.cs">
+      <DependentUpon>StoredProcedures.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Model\Generated\Structs.cs">
+      <DependentUpon>Structs.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Structs.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Repo\IBlogRepository.cs" />
+    <Compile Include="Model\HomeViewModel.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PostService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\PostViewModel.cs" />
-    <Compile Include="Model\Repo\WPRepository.cs" />
-    <Compile Include="Model\Tag.cs" />
+    <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +159,8 @@
     <Content Include="Content\style.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="LiveWriterManifest.xml" />
+    <Content Include="RSD.xml" />
     <Content Include="Scripts\dhtml.js" />
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\pngfix.js" />
@@ -166,9 +189,11 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MetaWeblogAPI.ashx" />
     <None Include="Content\css\plugins\buttons\Readme" />
     <None Include="Content\css\plugins\css-classes\Readme" />
     <None Include="Content\css\plugins\fancy-type\Readme" />
+    <None Include="DBScripts\2009_11_13_Rob_Hana_Schema.sql" />
     <None Include="Model\Generated\ActiveRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActiveRecord.cs</LastGenOutput>
@@ -177,8 +202,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Context.cs</LastGenOutput>
     </None>
-    <None Include="Model\Generated\MySQL.ttinclude" />
     <None Include="Model\Generated\Settings.ttinclude" />
+    <None Include="Model\Generated\SQLServer.ttinclude" />
+    <None Include="Model\Generated\StoredProcedures.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StoredProcedures.cs</LastGenOutput>
+    </None>
     <None Include="Model\Generated\Structs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Structs.cs</LastGenOutput>
@@ -204,7 +233,7 @@
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
+          <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>49402</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>

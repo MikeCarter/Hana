@@ -14,6 +14,9 @@
 	<script type="text/javascript" src="/scripts/functions.js"></script>
     <script type="text/javascript" src="/scripts/jquery-1.3.2.js"></script>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script> 
+    <link href="<%=Url.SiteRoot() %>/RSD.xml" rel="EditURI" title="RSD" type="application/rsd+xml" />
+    <link href="<%=Url.SiteRoot() %>/LiveWriterManifest.xml" rel="wlwmanifest" type="application/wlwmanifest+xml" />
+    <link rel='index' title='Rob Conery' href='http://blog.wekeroad.com' /> 
 	<style type="text/css">
     
 	</style>

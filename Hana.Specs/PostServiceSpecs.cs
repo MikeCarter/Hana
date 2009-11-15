@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,10 +18,10 @@ namespace Hana.Specs {
         };
 
         It should_have_2_featured_posts = () => {
-            model.FeaturePosts.Count.ShouldEqual(2);
+            model.RecentPosts.Count.ShouldEqual(2);
         };
         It should_sort_featured_posts_descending = () => {
-            model.FeaturePosts[0].PublishedAt.ShouldBeGreaterThan(model.FeaturePosts[1].PublishedAt);
+            model.RecentPosts[0].PublishedAt.ShouldBeGreaterThan(model.RecentPosts[1].PublishedAt);
         };
 
         It should_have_5_subsonic_posts = () => {
@@ -33,13 +33,10 @@ namespace Hana.Specs {
 
         
         It should_have_5_opinion_posts = () => {
-            model.OpinionPosts.Count.ShouldEqual(5);
+            model.TekpubPosts.Count.ShouldEqual(5);
         };
         It should_sort_opinion_posts_descending = () => {
-            model.OpinionPosts[0].PublishedAt.ShouldBeGreaterThan(model.OpinionPosts[1].PublishedAt);
-        };
-        It should_have_5_recent_comments = () => {
-            model.RecentComments.Count.ShouldEqual(5);
+            model.TekpubPosts[0].PublishedAt.ShouldBeGreaterThan(model.TekpubPosts[1].PublishedAt);
         };
 
     }
@@ -51,7 +48,7 @@ namespace Hana.Specs {
         };
 
         It should_have_0_featured_posts = () => {
-            model.FeaturePosts.Count.ShouldEqual(0);
+            model.RecentPosts.Count.ShouldEqual(0);
         };
 
         It should_have_0_subsonic_posts = () => {
@@ -59,10 +56,7 @@ namespace Hana.Specs {
         };
 
         It should_have_0_opinion_posts = () => {
-            model.OpinionPosts.Count.ShouldEqual(0);
-        };
-        It should_have_0_recent_comments = () => {
-            model.RecentComments.Count.ShouldEqual(0);
+            model.TekpubPosts.Count.ShouldEqual(0);
         };
 
     }
@@ -135,7 +129,7 @@ namespace Hana.Specs {
     public abstract class with_post_service {
         
         protected static PostService svc;
-        protected static PostViewModel model;
+        protected static HomeViewModel model;
         Establish context = () => {
             var mock = new Moq.Mock<IBlogRepository>();
             var posts=new List<Post>();
@@ -190,7 +184,7 @@ namespace Hana.Specs {
     public abstract class with_post_service_no_posts {
 
         protected static PostService svc;
-        protected static PostViewModel model;
+        protected static HomeViewModel model;
         Establish context = () => {
             var mock = new Moq.Mock<IBlogRepository>();
 
