@@ -194,6 +194,7 @@
     <None Include="Content\css\plugins\css-classes\Readme" />
     <None Include="Content\css\plugins\fancy-type\Readme" />
     <None Include="DBScripts\2009_11_13_Rob_Hana_Schema.sql" />
+    <None Include="DBScripts\2009_11_15_Rob_Hana_Schema.sql" />
     <None Include="Model\Generated\ActiveRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActiveRecord.cs</LastGenOutput>
