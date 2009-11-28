@@ -18,6 +18,7 @@ namespace Hana.Controllers {
 
         public AccountController()
             : this(null, null) {
+            
         }
 
         // This constructor is not used by the MVC framework but is instead provided for ease

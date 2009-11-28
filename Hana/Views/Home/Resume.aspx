@@ -5,9 +5,9 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <%Html.RenderPartial("Ribbon"); %>  
     <div id="feature" class="column span-15 colborder">
-        <h2>
-            Rob Conery</h2>
+        <h2>Rob Conery</h2>
         <p class="large">
             I have been working with computers for the last 32 years and I have a passion (bordering
             on obsession) for learning as much as I can about programming them. I am proud to
@@ -15,7 +15,7 @@
             I've earned from my peers.
         </p>
         <p class="large">
-            My focus over the last 4-5 years has centered around giving back what I've learned
+            My focus over the last 5-6 years has centered around giving back what I've learned
             in the form of educational blog posts, screencasts, and the creation of Open Source
             tools. My pride and joy has been <a href="http://subsonicproject.com" target="_blank">
                 SubSonic</a>, a data access tool that is focused on simplicity and elegance

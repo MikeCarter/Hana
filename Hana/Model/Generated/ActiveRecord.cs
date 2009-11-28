@@ -2883,6 +2883,25 @@ namespace Hana.Model
             }
         }
 
+        string _CategorySlug;
+        public string CategorySlug
+        {
+            get { return _CategorySlug; }
+            set
+            {
+                if(_CategorySlug!=value){
+                    _CategorySlug=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CategorySlug");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
         string _Slug;
         public string Slug
         {

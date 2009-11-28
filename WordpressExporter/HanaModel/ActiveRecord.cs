@@ -2332,6 +2332,25 @@ namespace Hana.Model
             }
         }
 
+        DateTime? _PublishedOn;
+        public DateTime? PublishedOn
+        {
+            get { return _PublishedOn; }
+            set
+            {
+                if(_PublishedOn!=value){
+                    _PublishedOn=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="PublishedOn");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
 
 
         public DbCommand GetUpdateCommand() {
@@ -2873,6 +2892,25 @@ namespace Hana.Model
                 if(_Title!=value){
                     _Title=value;
                     var col=tbl.Columns.SingleOrDefault(x=>x.Name=="Title");
+                    if(col!=null){
+                        if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
+                            _dirtyColumns.Add(col);
+                        }
+                    }
+                    OnChanged();
+                }
+            }
+        }
+
+        string _CategorySlug;
+        public string CategorySlug
+        {
+            get { return _CategorySlug; }
+            set
+            {
+                if(_CategorySlug!=value){
+                    _CategorySlug=value;
+                    var col=tbl.Columns.SingleOrDefault(x=>x.Name=="CategorySlug");
                     if(col!=null){
                         if(!_dirtyColumns.Any(x=>x.Name==col.Name) && _isLoaded){
                             _dirtyColumns.Add(col);

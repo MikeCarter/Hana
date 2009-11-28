@@ -48,8 +48,9 @@
   color:#000;
 }
 
-.gfg-listentry-odd {
-  background-color : #f5f5f5;
+.gfg-listentry-odd
+{
+    background-color: #F0FFF0;
 }
 
 .gfg-listentry-even {

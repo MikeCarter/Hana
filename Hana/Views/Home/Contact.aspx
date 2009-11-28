@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+    <%Html.RenderPartial("Ribbon"); %>  
     <h1>With Respect to Inquiries</h1>
     
     My name is Rob Conery and this is my blog. I used to work at Microsoft with the ASP.NET
@@ -21,14 +21,14 @@
     <h2>Correspondence</h2>
     If you would like to send me a message directly, please fill out the form below and it will be sent electronically
     to my current physical location, and merged into my psyche by the mischevous electrons under my employ.
-    
+    <form action="mailto:robconery@gmail.com" method="post" enctype="application/x-www-form-urlencoded">
     <div style="width:620px;">
     <div style="margin-top:16px"><img src="/content/images/dear.png" /></div>
     <div style="float:right">
         <input type="image" src="/content/images/stamp.jpg" alt="lick and send" style="border:0px"/>
     
     </div>
-    <textarea style="font-family:Georgia;font-size:1.6em;color: black; background-color: transparent;width:420px; height:250px" name="message"></textarea>
+    <textarea style="font-family:Georgia;font-size:1.6em;color: black; background-color: transparent;width:420px; height:250px" name="body"></textarea>
     <div>
         <img src="/content/images/regards.png" />
         
@@ -36,9 +36,8 @@
     
     
     </div>
-    <p>
-    <input type="text" name="from" style="font-family:Georgia;font-size:1.6em;width:243px"/> <br />
-    </p>
+    </form>
+
     <p>
     </p>
 </asp:Content>

@@ -62,9 +62,36 @@ namespace Hana.API
 
 
                 updatePost.Title = post.title;
-                updatePost.Slug = post.wp_slug;
+                if (!string.IsNullOrEmpty(post.wp_slug)) {
+                    updatePost.Slug = post.wp_slug;
+                } else {
+                    updatePost.Slug = updatePost.Title.CreateSlug();
+                }
                  
                 updatePost.Update();
+
+                //set categories and tags
+
+                if (post.categories != null) {
+                    Hana.Model.Categories_Post.Delete(x => x.PostID == updatePost.PostID);
+
+                    updatePost.CategorySlug = post.categories[0].CreateSlug();
+                    foreach (var c in post.categories) {
+                        AssignCategory(updatePost.PostID, c);
+                    }
+                }
+
+                var tags = new string[0];
+                if (!String.IsNullOrEmpty(post.mt_keywords)) {
+                    tags = post.mt_keywords.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    updatePost.Tags = string.Join(",", tags);
+                } 
+                if (!String.IsNullOrEmpty(post.mt_keywords)) {
+
+                    foreach (var t in tags) {
+                        AssignTag(updatePost.PostID, t);
+                    }
+                }
 
                 return result;
             }
@@ -105,6 +132,7 @@ namespace Hana.API
                 post.title =title.Title;
                 post.postid = postid;
                 post.description = title.Body;
+                post.wp_slug = title.Slug;
 
                 var results=new List<string>();
                 var cats = Hana.Model.Post.Categories(title.PostID);
@@ -114,6 +142,10 @@ namespace Hana.API
                 }
 
                 post.categories = results.ToArray();
+
+                //tags
+                post.mt_keywords = title.Tags;
+
 
                 return post;
             }
@@ -260,8 +292,13 @@ namespace Hana.API
                 newPost.ModifiedOn = DateTime.Now;
                 newPost.Title = post.title;
                 newPost.Body = post.description;
+                if (!string.IsNullOrEmpty(post.mt_text_more))
+                    newPost.Body += post.mt_text_more;
 
-                newPost.Slug = post.wp_slug ?? newPost.Title.CreateSlug();
+                newPost.Slug = newPost.Title.CreateSlug();
+                if (!string.IsNullOrEmpty(post.wp_slug))
+                    newPost.Slug = post.wp_slug;
+
                 var tags = new string[0];
                 if (!String.IsNullOrEmpty(post.mt_keywords)){
                     tags = post.mt_keywords.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
@@ -281,8 +318,9 @@ namespace Hana.API
                 newPost.Add();
                 //save the cats
 
-                if (post.categories!=null)
+                if (post.categories.Length>0)
                 {
+                    newPost.CategorySlug = post.categories[0].CreateSlug();
                     foreach (var c in post.categories)
                     {
                         AssignCategory(newPost.PostID, c);

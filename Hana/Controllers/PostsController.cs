@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Hana.Model;
+using Hana.Infrastructure;
 
 namespace Hana.Controllers
 {
@@ -13,9 +14,27 @@ namespace Hana.Controllers
         //
         // GET: /Posts/Details/5
 
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
+            
+            //pull the post
+            var post= Post.SingleOrDefault(x => x.Slug == id);
+            if (post == null)
+                return RedirectToAction("Index", "Home");
+            var related = Post.Related(post.PostID).ToList();
+
+            var model = new PostViewModel(related,post.Comments);
+            model.SelectedPost = new PostView(post);
+
+            return View(model);
+        }
+
+
+        public ActionResult Feed() {
+
+            var posts = Post.Recent(10);
+            return new FeedActionResult(FeedFormat.RSS, Url, posts);
+
         }
 
         //

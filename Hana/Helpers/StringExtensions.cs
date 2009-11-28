@@ -5,11 +5,14 @@ using System.Web;
 using System.Text.RegularExpressions;
 using SubSonic.Extensions;
 
-namespace Hana
-{
     public static class StringExtensions
     {
-
+        public static string FormattedDayMonth(this int dayMonth) {
+            var result = dayMonth.ToString();
+            if (result.Length == 1)
+                result = "0" + result;
+            return result;
+        }
 
         public static string CreateSlug(this string source)
         {
@@ -37,4 +40,3 @@ namespace Hana
 
         }
     }
-}

@@ -7,9 +7,9 @@ namespace Hana.Model {
     public class Blog {
 
         public const string BlogURL = "http://blog.wekeroad.com/";
-        public const string BlogName = "Rob Conery";
+        public const string BlogName = "Rob Conery's Blog";
         public const string Owner = "Rob Conery";
-        public const string BlogTagLine = "Roll Your Own";
+        public const string BlogTagLine = " Let's build a rocket!";
 
     }
 }

@@ -3,7 +3,7 @@
 	<options>
 		<clientType>MetaWeblog</clientType>
         <supportsExcerpt>No</supportsExcerpt>
-        <supportsExtendedEntries>No</supportsExtendedEntries>
+        <supportsExtendedEntries>Yes</supportsExtendedEntries>
 		<supportsNewCategories>Yes</supportsNewCategories>
         <supportsNewCategoriesInline>Yes</supportsNewCategoriesInline>
 		<requiresHtmlTitles>No</requiresHtmlTitles>

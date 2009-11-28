@@ -20,31 +20,58 @@ namespace Hana {
             //ignore for now
             routes.IgnoreRoute("favicon.ico");
             routes.IgnoreRoute("MetaWeblogAPI.ashx");
+            
             routes.MapRoute(
-              "post",                                              // Route name
-              "posts",                           // URL with parameters
-              new { controller = "Posts", action = "Index", id = "" }  // Parameter defaults
-            );   
+              "wp_post",                                              // Route name
+              "{year}/{month}/{day}/{id}",                           // URL with parameters
+              new { controller = "Posts", action = "Details"}  // Parameter defaults
+            );
+            routes.MapRoute(
+              "feed",                                              // Route name
+              "feed",                           // URL with parameters
+              new { controller = "Posts", action = "Feed" }  // Parameter defaults
+            );
+            routes.MapRoute(
+              "search",                                              // Route name
+              "search",                           // URL with parameters
+              new { controller = "Archive", action = "Search" }  // Parameter defaults
+            );
 
-
+            routes.MapRoute(
+              "category",                                              // Route name
+              "category/{category}/{id}",                           // URL with parameters
+              new { controller = "Archive", action = "Category", id=0 }  // Parameter defaults
+            );
+            routes.MapRoute(
+              "tag",                                              // Route name
+              "tag/{tag}/{id}",                           // URL with parameters
+              new { controller = "Archive", action = "Tag", id = 0 }  // Parameter defaults
+            );            
+            
             routes.MapRoute(
               "who",                                              // Route name
               "who",                           // URL with parameters
               new { controller = "Home", action = "who", id = "" }  // Parameter defaults
-          );           
+           );           
             routes.MapRoute(
                "contact",                                              // Route name
                "contact",                           // URL with parameters
                new { controller = "Home", action = "contact", id = "" }  // Parameter defaults
            );
 
-            
-            
             routes.MapRoute(
                 "resume",                                              // Route name
                 "resume",                           // URL with parameters
                 new { controller = "Home", action = "Resume", id = "" }  // Parameter defaults
             );
+
+
+            routes.MapRoute(
+              "post",                                              // Route name
+              "{category}/{id}",                           // URL with parameters
+              new { controller = "Posts", action = "Details" }  // Parameter defaults
+            );
+
             routes.MapRoute(
                 "Default",                                              // Route name
                 "{controller}/{action}/{id}",                           // URL with parameters

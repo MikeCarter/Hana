@@ -58,6 +58,12 @@
     <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -82,6 +88,7 @@
     <Compile Include="API\MetaWeblog.cs" />
     <Compile Include="API\Wordpress.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -93,7 +100,10 @@
     </Compile>
     <Compile Include="Helpers\Gravatar.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\FeedActionResult.cs" />
+    <Compile Include="Model\ArchiveViewModel.cs" />
     <Compile Include="Model\Blog.cs" />
+    <Compile Include="Model\PostViewModel.cs" />
     <Compile Include="Model\Generated\ActiveRecord.cs">
       <DependentUpon>ActiveRecord.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -118,6 +128,7 @@
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
+    <Compile Include="Model\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -166,8 +177,6 @@
     <Content Include="Scripts\pngfix.js" />
     <Content Include="Views\Home\Contact.aspx" />
     <Content Include="Views\Home\Resume.aspx" />
-    <Content Include="Views\Home\Who.aspx" />
-    <Content Include="Views\Posts\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.3.2.js" />
     <Content Include="Scripts\jquery-1.3.2.min.js" />
@@ -177,24 +186,33 @@
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Views\Account\ChangePassword.aspx" />
-    <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
-    <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
-    <Content Include="Views\Home\About.aspx" />
     <Content Include="Views\Home\Index.aspx" />
-    <Content Include="Views\Shared\Error.aspx" />
-    <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\bigLoader.gif" />
+    <Content Include="Content\images\gecko.png" />
+    <Content Include="Content\images\hula.jpg" />
+    <Content Include="Content\images\honu.gif" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loadingAnimation.gif" />
     <Content Include="MetaWeblogAPI.ashx" />
+    <Content Include="Scripts\jquery-ui-1.7.2.custom.min.js" />
+    <Content Include="Scripts\jquery.autocomplete.css" />
+    <Content Include="Scripts\jquery.autocomplete.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.updnWatermark.js" />
+    <Content Include="Views\Archive\Index.aspx" />
+    <Content Include="Views\Archive\Search.aspx" />
+    <Content Include="Views\Posts\Details.aspx" />
+    <Content Include="live.config" />
+    <Content Include="Views\Shared\PostSummaryList.ascx" />
+    <Content Include="Views\Shared\PostSummary.ascx" />
+    <Content Include="Views\Shared\Ribbon.ascx" />
     <None Include="Content\css\plugins\buttons\Readme" />
     <None Include="Content\css\plugins\css-classes\Readme" />
     <None Include="Content\css\plugins\fancy-type\Readme" />
-    <None Include="DBScripts\2009_11_13_Rob_Hana_Schema.sql" />
-    <None Include="DBScripts\2009_11_15_Rob_Hana_Schema.sql" />
     <None Include="Model\Generated\ActiveRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActiveRecord.cs</LastGenOutput>
@@ -219,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="DBScripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -16,6 +16,18 @@ namespace Hana.Model {
                         select p;
             return query;
         }
+
+        public static IQueryable<Post> PostsByCategorySlug(string slug)
+        {
+            var query = from p in Published()
+                        join cp in Categories_Post.All() on p.PostID equals cp.PostID
+                        join c in Category.All() on cp.CategoryID equals c.CategoryID
+                        where c.Slug == slug
+                        select p;
+            return query;
+        }
+
+
         public static IQueryable<Post> Recent(int limit){
             return Post.Published()
                 .OrderByDescending(x => x.PublishedOn).Take(limit);
@@ -32,6 +44,15 @@ namespace Hana.Model {
         public static IQueryable<Post> Published() {
             return Post.All().Where(x => x.PublishedOn <= DateTime.Now);
         }
+
+        public static IList<Post> Related(int postID) {
+            return (from p in Published()
+                    join cp in Categories_Post.All() on p.PostID equals cp.PostID
+                    join p2 in Published() on cp.PostID equals p2.PostID
+                    where p.PostID != p2.PostID
+                    select p).OrderByDescending(x=>x.PublishedOn).ToList();
+        }
+
 
         public static IList<Category> Categories(int postID){
             return (from p in Published()

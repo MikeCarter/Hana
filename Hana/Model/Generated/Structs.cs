@@ -539,7 +539,7 @@ namespace Hana.Model {
 	                IsPrimaryKey = true,
 	                DataType = DbType.Int32,
 	                IsNullable = false,
-	                AutoIncrement = false,
+	                AutoIncrement = true,
 	                IsForeignKey = true,
 	                MaxLength = 0
                 });
@@ -589,6 +589,16 @@ namespace Hana.Model {
 	                IsPrimaryKey = false,
 	                DataType = DbType.String,
 	                IsNullable = false,
+	                AutoIncrement = false,
+	                IsForeignKey = false,
+	                MaxLength = 500
+                });
+
+                Columns.Add(new DatabaseColumn("CategorySlug", this)
+                {
+	                IsPrimaryKey = false,
+	                DataType = DbType.String,
+	                IsNullable = true,
 	                AutoIncrement = false,
 	                IsForeignKey = false,
 	                MaxLength = 500
@@ -727,6 +737,18 @@ namespace Hana.Model {
    			public static string TitleColumn{
 			      get{
         			return "Title";
+      			}
+		    }
+            
+            public IColumn CategorySlug{
+                get{
+                    return this.GetColumn("CategorySlug");
+                }
+            }
+				
+   			public static string CategorySlugColumn{
+			      get{
+        			return "CategorySlug";
       			}
 		    }
             

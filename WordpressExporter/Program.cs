@@ -154,8 +154,9 @@ namespace WordpressExporter {
                 c.Email = comment.comment_author_email;
                 c.URL = comment.comment_author_url;
                 c.CreatedOn = comment.comment_date;
-                c.Body = comment.comment_content;
+                c.Body = comment.comment_content.Replace("\r","<br \\>");
                 c.ParentID = (int)comment.comment_parent;
+                c.PublishedOn = comment.comment_date;
                 c.Add();
             }
 

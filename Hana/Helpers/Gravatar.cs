@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Security.Cryptography;
-
+//Thanks to Rick Strahl for this
 namespace System.Web.Mvc {
     public static class GravatarHelper {
 

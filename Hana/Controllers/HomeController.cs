@@ -27,11 +27,8 @@ namespace Hana.Controllers {
                 .Take(5).ToList();
 
             var result = new HomeViewModel(recent,subsonic,pops,tekpub);
-
-            //set counts
-            result.TotalPosts = Post.Published().Count();
-            result.TotalComments = Post.Published().Sum(x => x.CommentCount);
-            
+            result.Categories = Category.All().ToList();
+           
             return View(result);
         }
 
