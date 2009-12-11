@@ -48,26 +48,8 @@
 </div>
 
 <div class="column span-4 last">
-    <p>
-    <div id="adzerk">
-        <div id="adzerk_ad_div">
-            <script type="text/javascript" src="http://engine.theloungenet.com/Server/DOTNET/RCONERY/VERT"></script>
-        </div>
-        <p id="adzerk_by">
-            <a href='http://theloungenet.com'>Ads by The Lounge</a>
-        </p>
-    </div>
-    </p>
-    <p>
-    <h3>Related</h3>
-     <p>
-        <ul>
-        <%foreach (var item in Model.Related) {%>
-            <li><a href="<%=Url.Action("Details","Posts",new {id=item.Slug})%>" rel="bookmark" title="Permanent Link to <%=item.Title %>" class="title"><%=item.Title%></a></li> 
-          <%} %>
-        </ul>
-     </p>
-    
+   <h3>Side Column Stuff</h3>
+
 </div>
 
 <hr />
@@ -88,27 +70,12 @@
 </div>
 <%} %>
 
-<div id="disqus_thread" class="column span-15"></div><script type="text/javascript" src="http://disqus.com/forums/wekeroad/embed.js"></script><noscript><a href="http://disqus.com/forums/wekeroad/?url=ref">View the discussion thread.</a></noscript>
+<h2>Comment Code Here</h2>
+<p>Check out Disqus - I like them a lot. Also jsKit</p>
+
 
 <div class="column last"></div>
 </div>
 
-
-<script type="text/javascript">
-//<![CDATA[
-(function() {
-	var links = document.getElementsByTagName('a');
-	var query = '?';
-	var disqus_developer = 1;
-
-	for(var i = 0; i < links.length; i++) {
-	if(links[i].href.indexOf('#disqus_thread') >= 0) {
-		query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
-	}
-	}
-	document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/wekeroad/get_num_replies.js' + query + '"></' + 'script>');
-})();
-//]]>
-</script>
 
 </asp:Content>

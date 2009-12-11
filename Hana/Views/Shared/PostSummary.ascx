@@ -17,5 +17,5 @@
     
             </div>
             <div class="column span-15" style="text-align:center;margin-bottom:16px">
-                <img src="/content/images/plum_separator.png" />
+                --
             </div>

@@ -46,7 +46,7 @@ namespace Hana.API
 
             var item = new Author();
             item.display_name = Hana.Model.Blog.Owner;
-            item.user_id = "rob";
+            item.user_id = Hana.Model.Blog.Owner;
             item.user_login = username;
 
             return  new Author[]{item};

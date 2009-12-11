@@ -18,7 +18,7 @@ namespace Hana.Controllers
         {
             
             //pull the post
-            var post= Post.SingleOrDefault(x => x.Slug == id);
+            var post= Post.All().SingleOrDefault(x => x.Slug == id);
             if (post == null)
                 return RedirectToAction("Index", "Home");
             var related = Post.Related(post.PostID).ToList();

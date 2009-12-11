@@ -27,49 +27,40 @@
     <div class="column span-24" id="elhead">
         <div class="column span-6 " style="padding-top:68px;padding-left:42px;">
              <a href="/contact">
-                <img src="/content/images/contact.png" />
+                <h3>Contact</h3>
             </a>
         </div>
          <div class="column span-10 " style="text-align:center">
            <a href="/" title="" class="logo">
-                <img alt="" src="/content/images/logo2.png" /></a>
+            <h1><%=Blog.BlogName %></h1> 
+            <span class=small><%=Blog.BlogTagLine %></span>
+           </a>
          
          </div>
          <div class="column span-6 last" style="text-align:center; padding-top:40px;" >        
-                 <a href="http://feeds.feedburner.com/wekeroad/EeKc" target="_blank">
-                    <img src="/content/images/subscribe.png" />
-                </a><br />
-                <a href="http://feeds.feedburner.com/wekeroad/EeKc"><img src="http://feeds.feedburner.com/~fc/wekeroad/EeKc?bg=99CCFF&fg=444444&anim=1" height="26" width="88" style="border:0;" alt="" /></a>
-       </div>
+            <img src="/content/images/icons/feed.png" />
+         </div>
     </div>
      
     
     <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     <div class="clear"></div>
     <div id="footer">
-    <p>&copy <%=DateTime.Now.Year %> Rob Conery</p>
-    </div>
-
-     <div id="subscribe">
-
-    </div>      
-    <div id="contact">
-    </div> 
-    
-    <div style="position:fixed;right:5px;top:5px;">
-    <img src="/content/images/gecko.png" />
+        <%//update this if you want to use Creative Commons - which you should! %>
+        <p>&copy <%=DateTime.Now.Year %> <%=Blog.Owner %></p>
+        
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/"> 
+                    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/us/88x31.png" /></a><br /> 
+                    <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dc:title" rel="dc:type"> 
+                    <%=Blog.Owner %>'s written material is licensed under a
+                     <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License</a>.
+                    </div> 
+        
     </div>
 
 </div>
+    
+    <!--probably put Google Analytics here-->
 
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-85773-7");
-pageTracker._trackPageview();
-} catch(err) {}</script>
 </body>
 </html>

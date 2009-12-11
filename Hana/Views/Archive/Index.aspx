@@ -56,14 +56,6 @@ function loadMore() {
     <!-- SIDEBAR -->
     <div id="sidebar" class="column span-4 last">
         <div id="home_right" class="column" style="text-align:center">
-            <div id="adzerk" class="column">
-                <div id="adzerk_ad_div" class="column">
-                    <script type="text/javascript" src="http://engine.theloungenet.com/Server/DOTNET/RCONERY/VERT"></script>
-                </div>
-                <p id="adzerk_by">
-                    <a href='http://theloungenet.com'>Ads by The Lounge</a>
-                </p>
-            </div>
             <div class="column" style="text-align:left">
                 <img src="/content/images/categories.png" />
                 <ul>

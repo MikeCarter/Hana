@@ -197,6 +197,9 @@
     <Content Include="Content\images\honu.gif" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\loadingAnimation.gif" />
+    <None Include="DBScripts\SearchIndexing.sql">
+      <SubType>ASPXCodeBehind</SubType>
+    </None>
     <Content Include="MetaWeblogAPI.ashx" />
     <Content Include="Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Scripts\jquery.autocomplete.css" />
@@ -213,6 +216,7 @@
     <None Include="Content\css\plugins\buttons\Readme" />
     <None Include="Content\css\plugins\css-classes\Readme" />
     <None Include="Content\css\plugins\fancy-type\Readme" />
+    <None Include="DBScripts\Blog.sql" />
     <None Include="Model\Generated\ActiveRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActiveRecord.cs</LastGenOutput>
@@ -237,7 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DBScripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

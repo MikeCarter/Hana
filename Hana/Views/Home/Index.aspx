@@ -17,7 +17,7 @@
           var feeds = [
 	        {
 	            title: 'Twitter',
-	            url: 'http://twitter.com/statuses/user_timeline/5721912.rss'
+	            url: 'http://twitter.com/statuses/user_timeline/81883339.rss'
 	        }
 	        ];
           var options = {
@@ -36,6 +36,29 @@
     <!--START LEFT SIDE-->
     <script type="text/javascript" src="http://v6.flickrshow.com/scripts/"></script>
     <div id="feature" class="column span-15 colborder">
+    
+        <h1>Hi There</h1>
+        <p>
+            If you've just downloaded this blog you're probably wondering what it looks like and how it works. Well here ya go!
+            I'll try to outline the steps for you here - but know that this is supposed to get you to about 80%, *you* get to
+            do the rest yourself. That's the point!
+        </p>
+        <h2>Setting Things Up</h2>
+        <p>
+            In no particular order you will probably want to...
+            <ul>
+                <li>Open up /model/blog.cs and change up all the constant values</li>
+                <li>Reset the Twitter link to the right to point to  your own stuff. You do that on this page (/views/home/index.aspx)</li>
+                <li>Next you'll want to install a database. The scripts are in /DBScripts.</li>
+                <li>As far as Importing data goes - check out the WordPress importer project. If you're not on WordPress you can use
+                it as a template for how to get rolling.
+                </li>
+                <li>There's nothing on the Contact and Resume pages - you might want to update those.</li>
+            
+            </ul>
+        
+        </p>
+    
         <!--BEGIN FEATURED POST-->
         <%foreach (PostView post in Model.RecentPosts){%>
             <%Html.RenderPartial("PostSummary", post); %>
@@ -46,16 +69,8 @@
     <!-- SIDEBAR -->
     <div id="sidebar" class="column span-7">
         <div id="home_right" class="column" style="text-align:center">
-                <div id="adzerk" class="column">
-                    <div id="adzerk_ad_div" class="column">
-                        <script type="text/javascript" src="http://engine.theloungenet.com/Server/DOTNET/RCONERY/VERT"></script>
-                    </div>
-                    <p id="adzerk_by">
-                        <a href='http://theloungenet.com'>Ads by The Lounge</a>
-                    </p>
-                </div>
             <div class="column" style="text-align:left">
-                <img src="/content/images/categories.png" />
+                <h3>Categories</h3>
                 <ul>
                 <%foreach (var cat in Model.Categories.Where(x=>x.CategoryID>1)){%>
                   <li><a href="<%=Url.Action("Category","Archive",new {category=cat.Slug}) %>"><%=cat.Description %></a></li>
@@ -64,7 +79,7 @@
                 </ul>
             
             </div>
-            <img src="/content/images/twitter.png" />
+            <h2>Twitter</h2>
             <div id="twitter" name="twitter" style="margin-bottom:24px;margin-top:12px"></div>
        </div>
     </div>
@@ -74,60 +89,46 @@
     <!-- BOTTOM LEFT FOUR CATEGORY LISTINGS -->
     <div class="column span-7 colborder">
         <div class="five_posts">
-               <img src="/content/images/popular.png" />
-               <%var popFirst = Model.PopularPosts.First(); %>
-                <h6><a href="<%=Url.Action(
-            "Details","Posts", 
-                new {
-                    year=popFirst.PublishedAt.Year,
-                    month=popFirst.PublishedAt.Month.FormattedDayMonth(), 
-                    day=popFirst.PublishedAt.Day.FormattedDayMonth(),
-                    id=popFirst.Slug
-                    }) 
-            %>" rel="bookmark" title="Permalink to <%=popFirst.Title %>"><%=popFirst.Title %></a></h6> 
-                <p class="byline"><%=popFirst.PublishedAt.ToShortDateString() %> | <a href="<%=Url.Action("Details","Posts",new {id=popFirst.Slug})%>/#comments" title="Comment on <%=popFirst.Title %>">Discuss</a></p> 
-                <p><%=popFirst.Summary %></p> 
-                <h6>More Popular Posts</h6> 
-                <ul>
-                <%foreach (var pop in Model.PopularPosts.Skip(1)) { %>
-                    <li><a href="<%=Url.Action("Details","Posts",new {id=pop.Slug})%>" rel="bookmark" title="Permanent Link to <%=pop.Title %>" class="title"><%=pop.Title %></a></li> 
-                <%} %> 
-                </ul> 
-                
+           <h3>Popular</h3>
+            <h6><a href="" rel="bookmark" title="Permalink to Post">Lorem Ipsum</a></h6> 
+            <p class="byline">11/5/1624 | <a href="" title="Comment on Lorem Ipsum">Discuss</a></p> 
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis luctus aliquam massa at commodo. Vestibulum sagittis pulvinar nulla</p> 
+            <h6>More Popular Posts</h6> 
+            <ul>
+            <%for(int i=0;i<5;i++) { %>
+                <li><a href="" rel="bookmark" title="Permanent Link to Lorem Ipsum" class="title">Lorem Ipsum</a></li> 
+            <%} %> 
+            </ul> 
         </div>
     </div>
     <div class="column span-7 colborder">
         <div class="five_posts">
-                <img src="/content/images/subsonic.png" />
-              <%var subFirst = Model.SubSonicPosts.First(); %>
-                <h6><a href="<%=Url.Action(
-            "Details","Posts", 
-                new {
-                    year=subFirst.PublishedAt.Year,
-                    month=subFirst.PublishedAt.Month.FormattedDayMonth(), 
-                    day=subFirst.PublishedAt.Day.FormattedDayMonth(),
-                    id=subFirst.Slug
-                    }) 
-            %>" rel="bookmark" title="Permalink to <%=subFirst.Title %>"><%=subFirst.Title %></a></h6> 
-                <p class="byline"><%=subFirst.PublishedAt.ToShortDateString()%> | <a href="<%=Url.Action("Details","Posts",new {id=subFirst.Slug})%>/#comments" title="Comment on <%=subFirst.Title %>">Discuss</a></p> 
-                <p><%=subFirst.Summary%></p> 
-                <h6><a href="/category/subsonic">More SubSonic</a></h6> 
-                <ul>
-                <%foreach (var pop in Model.SubSonicPosts.Skip(1)) { %>
-                    <li><a href="<%=Url.Action("Details","Posts",new {id=pop.Slug})%>" rel="bookmark" title="Permanent Link to <%=pop.Title %>" class="title"><%=pop.Title %></a></li> 
-                <%} %> 
-                </ul> 
-
+           <h3>Exciting and New</h3>
+            <h6><a href="" rel="bookmark" title="Permalink to Post">Lorem Ipsum</a></h6> 
+            <p class="byline">11/5/1624 | <a href="" title="Comment on Lorem Ipsum">Discuss</a></p> 
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis luctus aliquam massa at commodo. Vestibulum sagittis pulvinar nulla</p> 
+            <h6>More Popular Posts</h6> 
+            <ul>
+            <%for(int i=0;i<5;i++) { %>
+                <li><a href="" rel="bookmark" title="Permanent Link to Lorem Ipsum" class="title">Lorem Ipsum</a></li> 
+            <%} %> 
+            </ul> 
         </div>
     </div>
     
     <!-- LAST CATEGORY LISTING - NEEDED TO END CSS COLUMNS -->
     <div class="column span-7 last">
         <div class="five_posts">
-            <img src="/content/images/pictures.png" style="margin-bottom:38px;margin-top:20px;" />
-            <iframe align="center" src="http://www.flickr.com/slideShow/index.gne?user_id=91469966@N00&" frameBorder="0" width="300" scrolling="no" height="250"></iframe>
-
-
-        </div>
+           <h3>Hip and Cool</h3>
+            <h6><a href="" rel="bookmark" title="Permalink to Post">Lorem Ipsum</a></h6> 
+            <p class="byline">11/5/1624 | <a href="" title="Comment on Lorem Ipsum">Discuss</a></p> 
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis luctus aliquam massa at commodo. Vestibulum sagittis pulvinar nulla</p> 
+            <h6>More Popular Posts</h6> 
+            <ul>
+            <%for(int i=0;i<5;i++) { %>
+                <li><a href="" rel="bookmark" title="Permanent Link to Lorem Ipsum" class="title">Lorem Ipsum</a></li> 
+            <%} %> 
+            </ul> 
+        </div>    
     </div>
 </asp:Content>
